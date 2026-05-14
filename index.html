@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MCA Counselor Grade Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown: #5A2D0C;
+      --med:   #8C5E38;
+      --light: #C4916A;
+      --pale:  #F0D9C0;
+      --cream: #FBF7F1;
+      --s1:    #1d4ed8;
+      --s2:    #15803d;
+      --flag:  #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #FBF7F1 0%, #F0E4D0 100%);
+      min-height: 100vh;
+      padding: 18px 12px 60px;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      max-width: 1080px; margin: 0 auto 14px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding-bottom: 12px; border-bottom: 2px solid var(--pale);
+    }
+    .hdr-badge {
+      font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--light); background: var(--cream); border: 1.5px solid var(--pale);
+      border-radius: 99px; padding: 2px 9px; flex-shrink: 0;
+    }
+    .hdr-title { font-size: 18px; font-weight: 900; color: var(--brown); flex-shrink: 0; }
+    .student-input {
+      flex: 1; min-width: 140px; max-width: 240px;
+      padding: 7px 11px; border: 2px solid var(--pale); border-radius: 9px;
+      font-size: 13px; font-weight: 600; font-family: inherit; color: #111;
+      background: white; outline: none;
+    }
+    .student-input:focus { border-color: var(--brown); }
+    .hdr-btns { display: flex; gap: 6px; margin-left: auto; }
+    .hbtn {
+      padding: 7px 13px; border-radius: 9px; cursor: pointer;
+      font-size: 12px; font-weight: 700; font-family: inherit;
+      display: flex; align-items: center; gap: 5px; transition: all .15s;
+      white-space: nowrap;
+    }
+    .hbtn-settings { background: white; color: var(--med); border: 2px solid var(--pale); }
+    .hbtn-settings:hover { border-color: var(--brown); color: var(--brown); }
+    .hbtn-print { background: var(--brown); color: white; border: none; }
+    .hbtn-print:hover { background: #3d1e08; }
+
+    /* ── SETTINGS PANEL ── */
+    .settings {
+      max-width: 1080px; margin: 0 auto 12px;
+      background: white; border: 2px solid var(--pale); border-radius: 13px;
+      padding: 14px 18px; display: none;
+    }
+    .settings.open { display: block; animation: fadeIn .15s; }
+    .settings-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--light); margin-bottom: 10px; }
+    .settings-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .mode-btns { display: flex; gap: 4px; }
+    .mbtn {
+      padding: 7px 14px; border-radius: 8px; border: 2px solid var(--pale);
+      font-size: 12px; font-weight: 700; font-family: inherit;
+      cursor: pointer; color: var(--med); background: white; transition: all .15s;
+    }
+    .mbtn.active { background: var(--brown); color: white; border-color: var(--brown); }
+
+    /* ── SEMESTER TOGGLE ── */
+    .controls {
+      max-width: 1080px; margin: 0 auto 14px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .sem-tog {
+      display: flex; gap: 3px; background: white;
+      border: 2px solid var(--pale); border-radius: 11px; padding: 3px;
+    }
+    .sbtn {
+      padding: 7px 20px; border: none; border-radius: 8px;
+      font-size: 13px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: all .18s; color: var(--med); background: transparent;
+    }
+    .sbtn.s1.active { background: var(--s1); color: white; }
+    .sbtn.s2.active { background: var(--s2); color: white; }
+    .hint {
+      font-size: 11px; color: var(--light);
+      background: var(--cream); border: 1px solid var(--pale);
+      border-radius: 8px; padding: 6px 11px; line-height: 1.6;
+    }
+    .hint strong { color: var(--med); }
+    kbd {
+      font-size: 10px; background: #f3f4f6; border: 1px solid #d1d5db;
+      border-bottom-width: 2px; border-radius: 4px; padding: 1px 5px;
+      font-family: monospace; font-weight: 700; color: #374151;
+    }
+
+    /* ── TABLE WRAPPER ── */
+    .tbl-wrap {
+      max-width: 1080px; margin: 0 auto;
+      background: white; border-radius: 16px;
+      box-shadow: 0 4px 28px rgba(90,45,12,.10);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%; border-collapse: collapse; min-width: 680px;
+    }
+    th {
+      background: var(--cream); color: var(--med);
+      font-size: 9px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .08em; padding: 10px 8px; text-align: center;
+      border-bottom: 2px solid var(--pale); white-space: nowrap;
+    }
+    th.rth { color: var(--brown); background: #f5ece0; }
+    th.flth { color: var(--flag); background: #fff5f5; }
+    td {
+      padding: 7px 5px; border-bottom: 1px solid var(--pale);
+      text-align: center; vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(251,247,241,.6); }
+    tbody tr.flagged td { background: #fff5f5 !important; }
+    tbody tr.flagged { outline: 2px solid #fca5a5; outline-offset: -1px; }
+
+    .rn { font-size: 11px; font-weight: 800; color: var(--light); width: 28px; }
+
+    /* class name cell */
+    .cls-name {
+      font-size: 12px; font-weight: 700; color: #374151;
+      padding: 4px 7px; border-radius: 6px;
+      background: var(--cream); border: 1.5px solid var(--pale);
+      width: 110px; outline: none; font-family: inherit;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      cursor: text;
+    }
+    .cls-name:focus { border-color: var(--brown); background: white; }
+
+    /* exam checkbox */
+    .exam-cell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .exam-cb-wrap {
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer; user-select: none;
+    }
+    .exam-cb-wrap input[type="checkbox"] {
+      width: 15px; height: 15px; cursor: pointer;
+      accent-color: var(--brown);
+    }
+    .exam-cb-lbl { font-size: 10px; font-weight: 700; color: var(--med); }
+
+    /* ── GRADE CELL ── */
+    .gcell {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 36px; border-radius: 9px;
+      border: 2px solid #e5e7eb; background: #f9fafb;
+      font-size: 14px; font-weight: 900; color: #9ca3af;
+      cursor: default; transition: all .12s;
+      outline: none; position: relative;
+    }
+    .gcell:focus {
+      border-color: var(--brown);
+      box-shadow: 0 0 0 3px rgba(90,45,12,.18);
+      background: #fffcf7;
+      color: var(--brown);
+    }
+    .gcell.has-grade {
+      border-color: transparent;
+    }
+    .gcell.disabled {
+      opacity: .25; pointer-events: none; tabindex: -1;
+    }
+    /* pulse when grade just set */
+    @keyframes gradePop { 0%{transform:scale(.82)} 60%{transform:scale(1.1)} 100%{transform:scale(1)} }
+    .gcell.pop { animation: gradePop .2s ease; }
+
+    /* ── RESULT BADGE ── */
+    .rbadge {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 48px; padding: 5px 9px; border-radius: 9px;
+      font-size: 14px; font-weight: 900;
+      background: #f3f4f6; color: #9ca3af;
+      gap: 2px;
+    }
+    .rbadge.yr { font-size: 16px; min-width: 54px; padding: 6px 11px; }
+
+    /* flag */
+    .flag-cb { width: 17px; height: 17px; cursor: pointer; accent-color: var(--flag); }
+    .flag-td { position: relative; }
+
+    /* ── SINGLE MODE ── */
+    .single-wrap { max-width: 1080px; margin: 0 auto; }
+    .single-card {
+      background: white; border-radius: 16px;
+      box-shadow: 0 4px 28px rgba(90,45,12,.10);
+      border: 2px solid transparent; transition: border-color .2s;
+    }
+    .single-card.flagged { border-color: #fca5a5; background: #fff8f8; }
+    .single-inner { padding: 20px 22px; overflow-x: auto; }
+    .single-toprow {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1.5px solid var(--pale);
+    }
+    .sname-input {
+      padding: 7px 11px; border: 2px solid var(--pale); border-radius: 8px;
+      font-size: 13px; font-weight: 700; font-family: inherit; color: #111;
+      background: white; outline: none; width: 200px;
+    }
+    .sname-input:focus { border-color: var(--brown); }
+    .exam-tog-s {
+      display: flex; gap: 3px; background: var(--cream);
+      border: 1.5px solid var(--pale); border-radius: 9px; padding: 3px;
+    }
+    .etbtn {
+      padding: 5px 11px; border: none; border-radius: 7px;
+      font-size: 11px; font-weight: 700; font-family: inherit;
+      cursor: pointer; color: var(--med); background: transparent; transition: all .12s;
+    }
+    .etbtn.active { background: var(--brown); color: white; }
+    .sflag-wrap { margin-left: auto; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .sflag-wrap input { width: 16px; height: 16px; accent-color: var(--flag); cursor: pointer; }
+    .sflag-lbl { font-size: 11px; font-weight: 700; color: var(--flag); text-transform: uppercase; letter-spacing: .05em; }
+
+    .single-grades {
+      display: flex; align-items: flex-end; gap: 12px; flex-wrap: nowrap;
+      padding-bottom: 4px; overflow-x: auto;
+    }
+    .gcol { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+    .gcol-lbl {
+      font-size: 9px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--med); white-space: nowrap;
+    }
+    .gcol-lbl.s1 { color: var(--s1); }
+    .gcol-lbl.s2 { color: var(--s2); }
+    .gcol-lbl.yr { color: var(--brown); }
+    .arr { font-size: 22px; color: #d1d5db; padding-bottom: 20px; flex-shrink: 0; }
+
+    /* ── ACTION + INFO ── */
+    .action-bar {
+      max-width: 1080px; margin: 12px auto 0;
+      display: flex; gap: 8px;
+    }
+    .abtn {
+      padding: 9px 16px; border-radius: 9px; font-size: 12px; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: all .15s;
+      border: 2px solid var(--pale); background: white; color: var(--med);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .abtn:hover { border-color: var(--brown); color: var(--brown); }
+    .info-box {
+      max-width: 1080px; margin: 12px auto 0;
+      background: var(--cream); border: 1.5px solid var(--pale);
+      border-radius: 11px; padding: 12px 16px;
+      font-size: 11px; color: var(--med); line-height: 1.9;
+    }
+    .info-ttl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; color: var(--light); margin-bottom: 6px; }
+    .info-box strong { color: var(--brown); }
+    .info-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+
+    /* ── PRINT ── */
+    .print-only { display: none; }
+    @media print {
+      @page { size: landscape; margin: 1.2cm; }
+      body { background: white; padding: 0; font-size: 12px; }
+      .no-print, .settings, .action-bar, .info-box, .hbtn { display: none !important; }
+      .hdr { padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid #ccc; }
+      .controls { margin-bottom: 8px; }
+      .sem-tog { border: 1px solid #ccc; }
+      .sbtn { padding: 3px 10px; font-size: 11px; }
+      .tbl-wrap, .single-card { box-shadow: none; border: 1px solid #ccc; border-radius: 6px; }
+      th { padding: 5px 4px; font-size: 8px; }
+      td { padding: 4px 3px; }
+      .gcell { font-size: 12px; width: 40px; height: 28px; border: none; background: transparent; }
+      .gcell.has-grade { border-radius: 4px; }
+      .rbadge { font-size: 12px; padding: 2px 6px; min-width: 36px; }
+      .rbadge.yr { font-size: 14px; }
+      .cls-name { font-size: 11px; background: transparent; border: none; }
+      tbody tr.flagged td { background: #fff0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .gcell, .rbadge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .exam-cell { display: none; }
+      .flag-td input { display: none; }
+      .flag-td::after { content: attr(data-flagged); font-size: 10px; color: var(--flag); font-weight: 800; }
+      .print-only { display: block !important; }
+      .student-input { border: none; font-size: 14px; font-weight: 700; }
+    }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="hdr">
+  <span class="hdr-badge">MCA</span>
+  <span class="hdr-title">📊 Counselor Grade Calculator</span>
+  <input class="student-input" id="student-name" type="text" placeholder="Student Name…" tabindex="-1">
+  <div class="hdr-btns">
+    <button class="hbtn hbtn-settings no-print" onclick="toggleSettings()">⚙️ Settings</button>
+    <button class="hbtn hbtn-print no-print" onclick="doPrint()">📄 Print / PDF</button>
+  </div>
+</div>
+
+<!-- ═══ SETTINGS ═══ -->
+<div class="settings" id="settings">
+  <div class="settings-lbl">⚙️ Settings</div>
+  <div class="settings-row">
+    <span style="font-size:12px;font-weight:700;color:var(--med)">Mode:</span>
+    <div class="mode-btns">
+      <button class="mbtn" id="mbtn-single" onclick="setMode('single')">📋 Single Class</button>
+      <button class="mbtn active" id="mbtn-multi"  onclick="setMode('multi')">📚 All 7 Classes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SEMESTER TOGGLE ═══ -->
+<div class="controls">
+  <div class="sem-tog">
+    <button class="sbtn s1 active" id="btn-s1" onclick="setSem(1)">📘 Semester 1</button>
+    <button class="sbtn s2"        id="btn-s2" onclick="setSem(2)">📗 Semester 2</button>
+  </div>
+  <div class="hint no-print">
+    <strong>Keyboard:</strong> <kbd>Tab</kbd> move between grades &nbsp;·&nbsp; <kbd>Enter</kbd> advance &nbsp;·&nbsp;
+    Press <kbd>A</kbd>or<kbd>1</kbd> &nbsp;<kbd>B</kbd>or<kbd>2</kbd> &nbsp;<kbd>C</kbd>or<kbd>3</kbd> &nbsp;<kbd>D</kbd>or<kbd>4</kbd> &nbsp;<kbd>F</kbd>or<kbd>5</kbd> — <strong>1st press=+, 2nd=normal, 3rd=−, 4th=clear</strong>
+    &nbsp;·&nbsp; <kbd>Del</kbd> clear &nbsp;·&nbsp; <kbd>1</kbd>/<kbd>2</kbd> switch semester &nbsp;·&nbsp; <kbd>Esc</kbd> clear all
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div id="content"></div>
+
+<!-- ═══ ACTIONS ═══ -->
+<div class="action-bar no-print">
+  <button class="abtn" onclick="clearAll()">✕ Clear All &nbsp;<kbd>Esc</kbd></button>
+</div>
+
+<!-- ═══ INFO ═══ -->
+<div class="info-box no-print">
+  <div class="info-ttl">📖 How grades are calculated</div>
+  <div class="info-grid">
+    <strong>With Exam:</strong><span>Q1+Q2 → Chart A quality points + Midterm → Chart B → Semester grade. Q3+Q4 + Final → same. Sem1+Sem2 → Chart C → Year.</span>
+    <strong>No Exam:</strong><span>Q1+Q2 → Quarter Chart → Semester grade. Sem1+Sem2 → Chart C → Year. <em>(Midterm/Final fields are disabled.)</em></span>
+    <strong>"Has Exam" ✓:</strong><span>Check this box if the class has a Midterm or Final exam score. Uncheck for quarter-only classes (electives, gym, etc.).</span>
+    <strong>Flag ⚑:</strong><span>Check when the calculated grade doesn't match what's on the transcript — flags the row in red for the printed copy.</span>
+  </div>
+</div>
+
+<script>
+// ════════════ CHART DATA ════════════
+const GK = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'];
+const CHART_A = [
+  [36,34.5,33,31.5,30,28.5,27,25.5,24,22.5,21,19.5,18],
+  [34.5,33,31.5,30,28.5,27,25.5,24,22.5,21,19.5,18,16.5],
+  [33,31.5,30,28.5,27,25.5,24,22.5,21,19.5,18,16.5,15],
+  [31.5,30,28.5,27,25.5,24,22.5,21,19.5,18,16.5,15,13.5],
+  [30,28.5,27,25.5,24,22.5,21,19.5,18,16.5,15,13.5,12],
+  [28.5,27,25.5,24,22.5,21,19.5,18,16.5,15,13.5,12,10.5],
+  [27,25.5,24,22.5,21,19.5,18,16.5,15,13.5,12,10.5,9],
+  [25.5,24,22.5,21,19.5,18,16.5,15,13.5,12,10.5,9,7.5],
+  [24,22.5,21,19.5,18,16.5,15,13.5,12,10.5,9,7.5,6],
+  [22.5,21,19.5,18,16.5,15,13.5,12,10.5,9,7.5,6,4.5],
+  [21,19.5,18,16.5,15,13.5,12,10.5,9,7.5,6,4.5,3],
+  [19.5,18,16.5,15,13.5,12,10.5,9,7.5,6,4.5,3,1.5],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0]
+];
+const CBR=[36,34.5,33,31.5,30,28.5,27,25.5,24,22.5,21,19.5,18,16.5,15,13.5,12,10.5,9,7.5,6,4.5,3,1.5,0];
+const CHART_B=[
+  ['A+','A+','A','A','A','A','A-','A-','A-','A-','B+','B+','B+'],
+  ['A+','A','A','A','A','A-','A-','A-','A-','B+','B+','B+','B+'],
+  ['A','A','A','A','A-','A-','A-','A-','B+','B+','B+','B+','B+'],
+  ['A','A','A-','A-','A-','A-','B+','B+','B+','B+','B','B','B'],
+  ['A','A-','A-','A-','A-','B+','B+','B+','B+','B','B','B','B'],
+  ['A-','A-','A-','B+','B+','B+','B+','B','B','B','B','B-','B-'],
+  ['A-','A-','B+','B+','B+','B+','B','B','B','B','B-','B-','B-'],
+  ['B+','B+','B+','B+','B','B','B','B','B-','B-','B-','B-','C+'],
+  ['B+','B+','B+','B','B','B','B','B-','B-','B-','B-','C+','C+'],
+  ['B+','B','B','B','B','B-','B-','B-','B-','C+','C+','C+','C+'],
+  ['B','B','B','B','B-','B-','B-','B-','C+','C+','C+','C+','C'],
+  ['B','B','B-','B-','B-','B-','C+','C+','C+','C+','C','C','C'],
+  ['B','B-','B-','B-','B-','C+','C+','C+','C+','C','C','C','C'],
+  ['B-','B-','B-','C+','C+','C+','C+','C','C','C','C','C-','C-'],
+  ['B-','B-','C+','C+','C+','C+','C','C','C','C','C-','C-','C-'],
+  ['C+','C+','C+','C+','C','C','C','C','C-','C-','C-','C-','D+'],
+  ['C+','C+','C+','C','C','C','C','C-','C-','C-','C-','D+','D+'],
+  ['C+','C','C','C','C','C-','C-','C-','C-','D+','D+','D+','D+'],
+  ['C','C','C','C','C-','C-','C-','C-','D+','D+','D+','D+','D'],
+  ['C','C','C-','C-','C-','C-','D+','D+','D+','D+','D','D','D'],
+  ['C','C-','C-','C-','C-','D+','D+','D+','D+','D','D','D','D'],
+  ['C-','C-','C-','D+','D+','D+','D+','D','D','D','D','D-','F'],
+  ['C-','C-','D+','D+','D+','D+','D','D','D','D','D-','D-','F'],
+  ['D+','D+','D+','D+','D','D','D','D','D-','D-','F','F','F'],
+  ['F','F','F','F','F','F','F','F','F','F','F','F','F']
+];
+const CHART_QS=[
+  ['A+','A+','A','A','A-','A-','B+','B+','B','B','B-','B-','C+'],
+  ['A','A','A','A-','A-','B+','B+','B','B','B-','B-','C+','C+'],
+  ['A','A-','A-','A-','B+','B+','B','B','B-','B-','C+','C+','C'],
+  ['A-','A-','B+','B+','B+','B','B','B-','B-','C+','C+','C','C'],
+  ['A-','B+','B+','B','B','B','B-','B-','C+','C+','C','C','C-'],
+  ['B+','B+','B','B','B-','B-','B-','C+','C+','C','C','C-','C-'],
+  ['B+','B','B','B-','B-','C+','C+','C+','C','C','C-','C-','D+'],
+  ['B','B','B-','B-','C+','C+','C','C','C','C-','C-','D+','D+'],
+  ['B','B-','B-','C+','C+','C','C','C-','C-','C-','D+','D+','D'],
+  ['B-','B-','C+','C+','C','C','C-','C-','D+','D+','D+','D','F/D+'],
+  ['B-','C+','C+','C','C','C-','C-','D+','D+','D','D','D','F/D'],
+  ['C+','C+','C','C','C-','C-','D+','D+','D','D','D-','D-','F/D-'],
+  ['A+/F','A/F','A-/F','B+/F','B/F','B-/F','C+/F','C/F','C-/F','D+/F','D/F','D-/F','F']
+];
+const CHART_C=[
+  ['A+','A+','A','A','A-','A-','B+','B+','B','B','B-','B-','C+'],
+  ['A','A','A','A-','A-','B+','B+','B','B','B-','B-','C+','C+'],
+  ['A','A-','A-','A-','B+','B+','B','B','B-','B-','C+','C+','C'],
+  ['A-','A-','B+','B+','B+','B','B','B-','B-','C+','C+','C','C'],
+  ['A-','B+','B+','B','B','B','B-','B-','C+','C+','C','C','C-'],
+  ['B+','B+','B','B','B-','B-','B-','C+','C+','C','C','C-','C-'],
+  ['B+','B','B','B-','B-','C+','C+','C+','C','C','C-','C-','D+'],
+  ['B','B','B-','B-','C+','C+','C','C','C','C-','C-','D+','D+'],
+  ['B','B-','B-','C+','C+','C','C','C-','C-','C-','D+','D+','D'],
+  ['B-','B-','C+','C+','C','C','C-','C-','D+','D+','D+','D','F/D+'],
+  ['B-','C+','C+','C','C','C-','C-','D+','D+','D','D','D','F/D'],
+  ['C+','C+','C','C','C-','C-','D+','D+','D','D','D-','D-','F/D-'],
+  ['A+/F','A/F','A-/F','B+/F','B/F','B-/F','C+/F','C/F','C-/F','D+/F','D/F','D-/F','F']
+];
+
+// ════════════ LOOKUPS ════════════
+function aLookup(q1,q2){const c=GK.indexOf(q1),r=GK.indexOf(q2);return(c<0||r<0)?null:CHART_A[r][c];}
+function bLookup(qp,ex){
+  if(qp==null)return null;const ei=GK.indexOf(ex);if(ei<0)return null;
+  let ri=0,best=Infinity;for(let i=0;i<CBR.length;i++){const d=Math.abs(CBR[i]-qp);if(d<best){best=d;ri=i;}}
+  return CHART_B[ri][ei];
+}
+function qsLookup(a,b){const c=GK.indexOf(a),r=GK.indexOf(b);return(c<0||r<0)?null:CHART_QS[r][c];}
+function cLookup(s1,s2){
+  const a=String(s1).split('/')[0].trim(),b=String(s2).split('/')[0].trim();
+  const c=GK.indexOf(a),r=GK.indexOf(b);return(c<0||r<0)?null:CHART_C[r][c];
+}
+
+// ════════════ COLORS ════════════
+function gcol(g){if(!g)return'#9ca3af';const l=String(g).split('/')[0].trim();if(l[0]==='A')return'#15803d';if(l[0]==='B')return'#1d4ed8';if(l[0]==='C')return'#b45309';if(l[0]==='D')return'#be123c';return'#7f1d1d';}
+function gbg(g){if(!g)return'#f3f4f6';const l=String(g).split('/')[0].trim();if(l[0]==='A')return'#dcfce7';if(l[0]==='B')return'#dbeafe';if(l[0]==='C')return'#fef3c7';if(l[0]==='D')return'#ffe4e6';return'#fee2e2';}
+
+// ════════════ GRADE STATE ════════════
+const GS = {}; // fieldId → grade string or null
+function getG(id){return GS[id]||null;}
+
+function cycleGrade(fieldId, letter) {
+  const cur = GS[fieldId] || null;
+  let next;
+  if (letter === 'F') {
+    next = (cur === 'F') ? null : 'F';
+  } else {
+    const p=letter+'+', n=letter, m=letter+'-';
+    if (!cur || cur[0]!==letter) next = p;
+    else if (cur===p) next = n;
+    else if (cur===n) next = m;
+    else next = null;
+  }
+  GS[fieldId] = next;
+  refreshCell(fieldId);
+  const clsId = fieldId.slice(0, fieldId.lastIndexOf('-'));
+  refreshResults(clsId);
+}
+
+function refreshCell(fieldId) {
+  const el = document.querySelector(`.gcell[data-f="${fieldId}"]`);
+  if (!el) return;
+  const g = GS[fieldId] || null;
+  applyGradeToCell(el, g);
+}
+
+function applyGradeToCell(el, g) {
+  if (g) {
+    el.textContent = g;
+    el.style.color = gcol(g);
+    el.style.background = gbg(g);
+    el.style.borderColor = 'transparent';
+    el.classList.add('has-grade');
+    el.classList.remove('pop');
+    void el.offsetWidth; // reflow for animation restart
+    el.classList.add('pop');
+  } else {
+    el.textContent = '—';
+    el.style.color = '#9ca3af';
+    el.style.background = '#f9fafb';
+    el.style.borderColor = '#e5e7eb';
+    el.classList.remove('has-grade','pop');
+  }
+}
+
+function setResultEl(el, g) {
+  if (!el) return;
+  if (!g) {
+    el.innerHTML = '—'; el.style.color='#9ca3af'; el.style.background='#f3f4f6';
+    return;
+  }
+  const parts = String(g).split('/');
+  if (parts.length > 1) {
+    el.style.background = 'transparent'; el.style.color = '';
+    el.innerHTML = parts.map(p=>{p=p.trim();return`<span style="color:${gcol(p)};background:${gbg(p)};padding:2px 6px;border-radius:5px;font-size:.88em;font-weight:900">${p}</span>`;}).join('<span style="color:#9ca3af;font-size:.8em;margin:0 1px">/</span>');
+  } else {
+    el.textContent = g; el.style.color = gcol(g); el.style.background = gbg(g);
+  }
+}
+
+// ════════════ COMPUTE ════════════
+function compute(clsId, type, sem) {
+  if (sem===1) {
+    const q1=getG(`${clsId}-q1`), q2=getG(`${clsId}-q2`);
+    let s1=null;
+    if (type==='exam') { const mid=getG(`${clsId}-mid`), qp=(q1&&q2)?aLookup(q1,q2):null; s1=(qp!==null&&mid)?bLookup(qp,mid):null; }
+    else s1=(q1&&q2)?qsLookup(q1,q2):null;
+    return {s1,s2:null,yr:null};
+  } else {
+    const s1m=getG(`${clsId}-sem1`), q3=getG(`${clsId}-q3`), q4=getG(`${clsId}-q4`);
+    let s2=null;
+    if (type==='exam') { const fin=getG(`${clsId}-fin`), qp=(q3&&q4)?aLookup(q3,q4):null; s2=(qp!==null&&fin)?bLookup(qp,fin):null; }
+    else s2=(q3&&q4)?qsLookup(q3,q4):null;
+    const yr=(s1m&&s2)?cLookup(s1m,s2):null;
+    return {s1:null,s2,yr};
+  }
+}
+
+function refreshResults(clsId) {
+  const cls = getClsObj(clsId);
+  if (!cls) return;
+  const r = compute(clsId, cls.type, sem);
+  setResultEl(document.getElementById(`r-s1-${clsId}`), r.s1);
+  setResultEl(document.getElementById(`r-s2-${clsId}`), r.s2);
+  setResultEl(document.getElementById(`r-yr-${clsId}`), r.yr);
+}
+
+// ════════════ STATE ════════════
+let sem  = 1;
+let mode = 'multi';
+let settingsOpen = false;
+
+const DEFAULT_NAMES = ['English','Math','Religion','Science','Social Studies','',''];
+
+const singleCls = { id:'sc', name:'', type:'exam', flagged:false };
+const multiCls  = DEFAULT_NAMES.map((name, i) => ({
+  id: `mc${i}`, name, type: 'exam', flagged: false
+}));
+
+function getClsObj(id) {
+  if (id==='sc') return singleCls;
+  return multiCls.find(c=>c.id===id)||null;
+}
+
+// ════════════ GRADE CELL HTML ════════════
+function gcellHTML(fieldId, disabled) {
+  const g = GS[fieldId]||null;
+  const dis = disabled?' gcell-disabled disabled':'';
+  const ti  = disabled?'-1':'0';
+  const style= g ? `color:${gcol(g)};background:${gbg(g)};border-color:transparent` : '';
+  return `<div class="gcell${dis}${g?' has-grade':''}" tabindex="${ti}" data-f="${fieldId}"
+    onkeydown="gcKey(event,'${fieldId}')"
+    title="A or 1 = A  ·  B or 2 = B  ·  C or 3 = C  ·  D or 4 = D  ·  F or 5 = F  |  1st press=+, 2nd=normal, 3rd=−, 4th=clear  |  Del=clear  Tab/Enter=next"
+    style="${style}">${g||'—'}</div>`;
+}
+
+// ════════════ KEYDOWN HANDLER ════════════
+function gcKey(e, fieldId) {
+  // Number keys: 1=A, 2=B, 3=C, 4=D, 5=F
+  const numMap = {'1':'A','2':'B','3':'C','4':'D','5':'F'};
+  const k = numMap[e.key] || e.key.toUpperCase();
+  if (['A','B','C','D','F'].includes(k)) {
+    e.preventDefault();
+    cycleGrade(fieldId, k);
+  } else if (k==='BACKSPACE'||k==='DELETE') {
+    e.preventDefault();
+    GS[fieldId]=null; refreshCell(fieldId);
+    const clsId=fieldId.slice(0,fieldId.lastIndexOf('-')); refreshResults(clsId);
+  } else if (k==='ENTER'||k==='TAB') {
+    // Let Tab work naturally; for Enter, move forward explicitly
+    if (k==='ENTER') { e.preventDefault(); moveFwd(e.target); }
+  }
+}
+
+function moveFwd(el) {
+  const all=[...document.querySelectorAll('[tabindex="0"]:not(.disabled)')].filter(e=>!e.disabled);
+  const i=all.indexOf(el);
+  if(i>=0&&i<all.length-1) all[i+1].focus();
+}
+
+// ════════════ RENDER ════════════
+function render() {
+  if (mode==='single') renderSingle();
+  else renderMulti();
+}
+
+function renderMulti() {
+  let thCols='', colGroup='';
+  if (sem===1) {
+    thCols=`<th>Q1</th><th>Q2</th><th title="Only used if Has Exam is checked">Midterm</th><th class="rth">Sem 1</th>`;
+  } else {
+    thCols=`<th>Sem 1<br><span style="font-size:7px;font-weight:500;text-transform:none">from record</span></th><th>Q3</th><th>Q4</th><th title="Only used if Has Exam is checked">Final</th><th class="rth">Sem 2</th><th class="rth">Year</th>`;
+  }
+
+  const rows = multiCls.map((cls,i)=>{
+    const {id,name,type,flagged}=cls;
+    const dis = type==='no-exam';
+    let dataCols='';
+    if (sem===1) {
+      dataCols=`<td>${gcellHTML(`${id}-q1`)}</td><td>${gcellHTML(`${id}-q2`)}</td><td>${gcellHTML(`${id}-mid`,dis)}</td>
+        <td><div class="rbadge" id="r-s1-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>`;
+    } else {
+      dataCols=`<td>${gcellHTML(`${id}-sem1`)}</td><td>${gcellHTML(`${id}-q3`)}</td><td>${gcellHTML(`${id}-q4`)}</td>
+        <td>${gcellHTML(`${id}-fin`,dis)}</td>
+        <td><div class="rbadge" id="r-s2-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>
+        <td><div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>`;
+    }
+    return `<tr class="${flagged?'flagged':''}" id="row-${id}">
+      <td class="rn">${i+1}</td>
+      <td><div class="cls-name" contenteditable="true" tabindex="-1"
+        onblur="multiCls[${i}].name=this.textContent.trim()"
+        style="outline:none">${name}</div></td>
+      <td>
+        <div class="exam-cell">
+          <label class="exam-cb-wrap" title="Check if this class has a Midterm or Final exam score. Uncheck for quarter-only classes.">
+            <input type="checkbox" class="exam-cb" ${type==='exam'?'checked':''}
+              onchange="setMType(${i},this.checked?'exam':'no-exam')">
+            <span class="exam-cb-lbl">Has<br>Exam</span>
+          </label>
+        </div>
+      </td>
+      ${dataCols}
+      <td class="flag-td" data-flagged="${flagged?'⚑':''}">
+        <input type="checkbox" class="flag-cb" ${flagged?'checked':''} tabindex="0"
+          onchange="setMFlag(${i},this.checked)" title="Flag: calculated grade doesn't match transcript">
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('content').innerHTML=`
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>#</th>
+          <th>Class</th>
+          <th title="Does this class have a Midterm/Final exam?">Has Exam?</th>
+          ${thCols}
+          <th class="flth" title="Flag if grade doesn't match">⚑ Flag</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+
+  multiCls.forEach(cls=>refreshResults(cls.id));
+}
+
+function renderSingle() {
+  const {id,name,type,flagged}=singleCls;
+  const dis=type==='no-exam';
+  let grades='';
+  if (sem===1) {
+    grades=`
+      <div class="gcol"><div class="gcol-lbl">Q1</div>${gcellHTML(`${id}-q1`)}</div>
+      <div class="gcol"><div class="gcol-lbl">Q2</div>${gcellHTML(`${id}-q2`)}</div>
+      ${!dis?`<div class="gcol"><div class="gcol-lbl">Midterm</div>${gcellHTML(`${id}-mid`)}</div>`:''}
+      <div class="arr">→</div>
+      <div class="gcol"><div class="gcol-lbl s1">Semester 1 Grade</div>
+        <div class="rbadge" id="r-s1-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>`;
+  } else {
+    grades=`
+      <div class="gcol"><div class="gcol-lbl">Sem 1<br><span style="font-size:8px;font-weight:500;text-transform:none;letter-spacing:0">from record</span></div>${gcellHTML(`${id}-sem1`)}</div>
+      <div class="gcol"><div class="gcol-lbl">Q3</div>${gcellHTML(`${id}-q3`)}</div>
+      <div class="gcol"><div class="gcol-lbl">Q4</div>${gcellHTML(`${id}-q4`)}</div>
+      ${!dis?`<div class="gcol"><div class="gcol-lbl">Final</div>${gcellHTML(`${id}-fin`)}</div>`:''}
+      <div class="arr">→</div>
+      <div class="gcol"><div class="gcol-lbl s2">Semester 2</div>
+        <div class="rbadge" id="r-s2-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>
+      <div class="gcol"><div class="gcol-lbl yr">⭐ Year</div>
+        <div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>`;
+  }
+
+  document.getElementById('content').innerHTML=`
+    <div class="single-wrap">
+      <div class="single-card${flagged?' flagged':''}" id="single-card">
+        <div class="single-inner">
+          <div class="single-toprow">
+            <input class="sname-input" type="text" placeholder="Class name (optional)…"
+              value="${name}" oninput="singleCls.name=this.value" tabindex="-1">
+            <div class="exam-tog-s">
+              <button class="etbtn${type==='exam'?' active':''}" onclick="setSType('exam')">📝 Has Exam</button>
+              <button class="etbtn${type==='no-exam'?' active':''}" onclick="setSType('no-exam')">📖 No Exam</button>
+            </div>
+            <label class="sflag-wrap">
+              <input type="checkbox" ${flagged?'checked':''} onchange="setSFlag(this.checked)" tabindex="0">
+              <span class="sflag-lbl">⚑ Flag Mismatch</span>
+            </label>
+          </div>
+          <div class="single-grades">${grades}</div>
+        </div>
+      </div>
+    </div>`;
+  refreshResults(id);
+}
+
+// ════════════ SETTERS ════════════
+function toggleSettings(){settingsOpen=!settingsOpen;document.getElementById('settings').classList.toggle('open',settingsOpen);}
+function setMode(m){mode=m;document.getElementById('mbtn-single').classList.toggle('active',m==='single');document.getElementById('mbtn-multi').classList.toggle('active',m==='multi');render();}
+function setSem(n){sem=n;document.getElementById('btn-s1').classList.toggle('active',n===1);document.getElementById('btn-s2').classList.toggle('active',n===2);render();}
+function setSType(t){singleCls.type=t;renderSingle();}
+function setSFlag(f){singleCls.flagged=f;document.getElementById('single-card')?.classList.toggle('flagged',f);}
+function setMType(i,t){multiCls[i].type=t;renderMulti();}
+function setMFlag(i,f){
+  multiCls[i].flagged=f;
+  const row=document.getElementById(`row-${multiCls[i].id}`);
+  if(row){row.classList.toggle('flagged',f);row.querySelector('.flag-td').dataset.flagged=f?'⚑':'';}
+}
+
+// ════════════ CLEAR ════════════
+function clearAll(){
+  Object.keys(GS).forEach(k=>delete GS[k]);
+  singleCls.flagged=false; singleCls.name='';
+  multiCls.forEach((c,i)=>{c.flagged=false; if(i>=5)c.name='';});
+  render();
+}
+
+// ════════════ PRINT ════════════
+function doPrint(){
+  const now=new Date();
+  const ds=now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.title=`Grade Calc – ${document.getElementById('student-name').value||'Student'} – ${ds}`;
+  window.print();
+}
+
+// ════════════ KEYBOARD ════════════
+document.addEventListener('keydown',e=>{
+  const tag=e.target.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||e.target.isContentEditable){
+    if(e.key==='Escape'){e.target.blur();clearAll();}
+    return;
+  }
+  // If a grade cell is focused, gcKey handles everything — don't intercept here
+  if(e.target.classList.contains('gcell')) return;
+  if(e.key==='Escape') clearAll();
+  if(e.key==='1') setSem(1);
+  if(e.key==='2') setSem(2);
+});
+
+// ════════════ INIT ════════════
+render();
+// Focus first grade cell
+setTimeout(()=>{
+  const first=document.querySelector('.gcell:not(.disabled)');
+  if(first) first.focus();
+},80);
+</script>
+</body>
+</html>
