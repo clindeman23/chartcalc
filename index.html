@@ -8,286 +8,180 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --brown: #5A2D0C;
-      --med:   #8C5E38;
-      --light: #C4916A;
-      --pale:  #F0D9C0;
-      --cream: #FBF7F1;
-      --s1:    #1d4ed8;
-      --s2:    #15803d;
-      --flag:  #dc2626;
+      --brown: #5A2D0C; --med: #8C5E38; --light: #C4916A;
+      --pale: #F0D9C0; --cream: #FBF7F1;
+      --s1: #1d4ed8; --s2: #15803d; --flag: #dc2626;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: linear-gradient(135deg, #FBF7F1 0%, #F0E4D0 100%);
-      min-height: 100vh;
-      padding: 18px 12px 60px;
-    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: linear-gradient(135deg,#FBF7F1 0%,#F0E4D0 100%); min-height:100vh; padding:18px 12px 60px; }
 
     /* ── HEADER ── */
-    .hdr {
-      max-width: 1080px; margin: 0 auto 14px;
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-      padding-bottom: 12px; border-bottom: 2px solid var(--pale);
-    }
-    .hdr-badge {
-      font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--light); background: var(--cream); border: 1.5px solid var(--pale);
-      border-radius: 99px; padding: 2px 9px; flex-shrink: 0;
-    }
-    .hdr-title { font-size: 18px; font-weight: 900; color: var(--brown); flex-shrink: 0; }
-    .student-input {
-      flex: 1; min-width: 140px; max-width: 240px;
-      padding: 7px 11px; border: 2px solid var(--pale); border-radius: 9px;
-      font-size: 13px; font-weight: 600; font-family: inherit; color: #111;
-      background: white; outline: none;
-    }
-    .student-input:focus { border-color: var(--brown); }
-    .hdr-btns { display: flex; gap: 6px; margin-left: auto; }
-    .hbtn {
-      padding: 7px 13px; border-radius: 9px; cursor: pointer;
-      font-size: 12px; font-weight: 700; font-family: inherit;
-      display: flex; align-items: center; gap: 5px; transition: all .15s;
-      white-space: nowrap;
-    }
-    .hbtn-settings { background: white; color: var(--med); border: 2px solid var(--pale); }
-    .hbtn-settings:hover { border-color: var(--brown); color: var(--brown); }
-    .hbtn-print { background: var(--brown); color: white; border: none; }
-    .hbtn-print:hover { background: #3d1e08; }
+    .hdr { max-width:1120px; margin:0 auto 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding-bottom:12px; border-bottom:2px solid var(--pale); }
+    .hdr-badge { font-size:9px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--light); background:var(--cream); border:1.5px solid var(--pale); border-radius:99px; padding:2px 9px; flex-shrink:0; }
+    .hdr-title { font-size:18px; font-weight:900; color:var(--brown); flex-shrink:0; }
+    .student-input { flex:1; min-width:140px; max-width:240px; padding:7px 11px; border:2px solid var(--pale); border-radius:9px; font-size:13px; font-weight:600; font-family:inherit; color:#111; background:white; outline:none; }
+    .student-input:focus { border-color:var(--brown); }
+    .hdr-btns { display:flex; gap:6px; margin-left:auto; }
+    .hbtn { padding:7px 13px; border-radius:9px; cursor:pointer; font-size:12px; font-weight:700; font-family:inherit; display:flex; align-items:center; gap:5px; transition:all .15s; white-space:nowrap; }
+    .hbtn-settings { background:white; color:var(--med); border:2px solid var(--pale); }
+    .hbtn-settings:hover { border-color:var(--brown); color:var(--brown); }
+    .hbtn-print { background:var(--brown); color:white; border:none; }
+    .hbtn-print:hover { background:#3d1e08; }
 
-    /* ── SETTINGS PANEL ── */
-    .settings {
-      max-width: 1080px; margin: 0 auto 12px;
-      background: white; border: 2px solid var(--pale); border-radius: 13px;
-      padding: 14px 18px; display: none;
-    }
-    .settings.open { display: block; animation: fadeIn .15s; }
-    .settings-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--light); margin-bottom: 10px; }
-    .settings-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .mode-btns { display: flex; gap: 4px; }
-    .mbtn {
-      padding: 7px 14px; border-radius: 8px; border: 2px solid var(--pale);
-      font-size: 12px; font-weight: 700; font-family: inherit;
-      cursor: pointer; color: var(--med); background: white; transition: all .15s;
-    }
-    .mbtn.active { background: var(--brown); color: white; border-color: var(--brown); }
+    /* ── SETTINGS ── */
+    .settings { max-width:1120px; margin:0 auto 12px; background:white; border:2px solid var(--pale); border-radius:13px; padding:14px 18px; display:none; }
+    .settings.open { display:block; animation:fadeIn .15s; }
+    .settings-lbl { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:var(--light); margin-bottom:10px; }
+    .settings-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .mbtn { padding:7px 14px; border-radius:8px; border:2px solid var(--pale); font-size:12px; font-weight:700; font-family:inherit; cursor:pointer; color:var(--med); background:white; transition:all .15s; }
+    .mbtn.active { background:var(--brown); color:white; border-color:var(--brown); }
 
-    /* ── SEMESTER TOGGLE ── */
-    .controls {
-      max-width: 1080px; margin: 0 auto 14px;
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    }
-    .sem-tog {
-      display: flex; gap: 3px; background: white;
-      border: 2px solid var(--pale); border-radius: 11px; padding: 3px;
-    }
-    .sbtn {
-      padding: 7px 20px; border: none; border-radius: 8px;
-      font-size: 13px; font-weight: 700; font-family: inherit;
-      cursor: pointer; transition: all .18s; color: var(--med); background: transparent;
-    }
-    .sbtn.s1.active { background: var(--s1); color: white; }
-    .sbtn.s2.active { background: var(--s2); color: white; }
-    .hint {
-      font-size: 11px; color: var(--light);
-      background: var(--cream); border: 1px solid var(--pale);
-      border-radius: 8px; padding: 6px 11px; line-height: 1.6;
-    }
-    .hint strong { color: var(--med); }
-    kbd {
-      font-size: 10px; background: #f3f4f6; border: 1px solid #d1d5db;
-      border-bottom-width: 2px; border-radius: 4px; padding: 1px 5px;
-      font-family: monospace; font-weight: 700; color: #374151;
-    }
+    /* ── CONTROLS ── */
+    .controls { max-width:1120px; margin:0 auto 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .sem-tog { display:flex; gap:3px; background:white; border:2px solid var(--pale); border-radius:11px; padding:3px; }
+    .sbtn { padding:7px 18px; border:none; border-radius:8px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .18s; color:var(--med); background:transparent; }
+    .sbtn.s1.active { background:var(--s1); color:white; }
+    .sbtn.s2.active { background:var(--s2); color:white; }
+    .hr-btn { padding:8px 15px; border-radius:10px; border:none; cursor:pointer; font-size:12px; font-weight:800; font-family:inherit; background:linear-gradient(135deg,#92400e,#5A2D0C); color:white; display:flex; align-items:center; gap:6px; transition:all .15s; box-shadow:0 2px 8px rgba(90,45,12,.3); }
+    .hr-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(90,45,12,.4); }
+    .hint { font-size:11px; color:var(--light); background:var(--cream); border:1px solid var(--pale); border-radius:8px; padding:6px 11px; line-height:1.6; }
+    .hint strong { color:var(--med); }
+    kbd { font-size:10px; background:#f3f4f6; border:1px solid #d1d5db; border-bottom-width:2px; border-radius:4px; padding:1px 5px; font-family:monospace; font-weight:700; color:#374151; }
 
-    /* ── TABLE WRAPPER ── */
-    .tbl-wrap {
-      max-width: 1080px; margin: 0 auto;
-      background: white; border-radius: 16px;
-      box-shadow: 0 4px 28px rgba(90,45,12,.10);
-      overflow-x: auto;
-    }
-    table {
-      width: 100%; border-collapse: collapse; min-width: 680px;
-    }
-    th {
-      background: var(--cream); color: var(--med);
-      font-size: 9px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .08em; padding: 10px 8px; text-align: center;
-      border-bottom: 2px solid var(--pale); white-space: nowrap;
-    }
-    th.rth { color: var(--brown); background: #f5ece0; }
-    th.flth { color: var(--flag); background: #fff5f5; }
-    td {
-      padding: 7px 5px; border-bottom: 1px solid var(--pale);
-      text-align: center; vertical-align: middle;
-    }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover td { background: rgba(251,247,241,.6); }
-    tbody tr.flagged td { background: #fff5f5 !important; }
-    tbody tr.flagged { outline: 2px solid #fca5a5; outline-offset: -1px; }
+    /* ── TABLE ── */
+    .tbl-wrap { max-width:1120px; margin:0 auto; background:white; border-radius:16px; box-shadow:0 4px 28px rgba(90,45,12,.10); overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:780px; }
+    th { background:var(--cream); color:var(--med); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; padding:10px 6px; text-align:center; border-bottom:2px solid var(--pale); white-space:nowrap; }
+    th.rth { color:var(--brown); background:#f5ece0; }
+    th.flth { color:var(--flag); background:#fff5f5; }
+    th.hth { color:#7c3aed; background:#f5f3ff; }
+    td { padding:7px 4px; border-bottom:1px solid var(--pale); text-align:center; vertical-align:middle; }
+    tbody tr:last-child td { border-bottom:none; }
+    tbody tr:hover td { background:rgba(251,247,241,.6); }
+    tbody tr.flagged td { background:#fff5f5 !important; }
+    tbody tr.flagged { outline:2px solid #fca5a5; outline-offset:-1px; }
+    .rn { font-size:11px; font-weight:800; color:var(--light); width:26px; }
+    .cls-name { font-size:12px; font-weight:700; color:#374151; padding:4px 6px; border-radius:6px; background:var(--cream); border:1.5px solid var(--pale); width:100px; outline:none; font-family:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:text; }
+    .cls-name:focus { border-color:var(--brown); background:white; }
 
-    .rn { font-size: 11px; font-weight: 800; color: var(--light); width: 28px; }
+    /* ── TYPE TOGGLE (3-way) ── */
+    .type3 { display:flex; gap:2px; justify-content:center; }
+    .t3btn { padding:3px 6px; border-radius:5px; border:1.5px solid var(--pale); font-size:10px; font-weight:800; cursor:pointer; font-family:inherit; color:var(--med); background:white; transition:all .1s; line-height:1.3; }
+    .t3btn:hover { border-color:var(--brown); }
+    .t3btn.active-E { background:#1d4ed8; color:white; border-color:#1d4ed8; }
+    .t3btn.active-N { background:#15803d; color:white; border-color:#15803d; }
+    .t3btn.active-H { background:#7c3aed; color:white; border-color:#7c3aed; }
 
-    /* class name cell */
-    .cls-name {
-      font-size: 12px; font-weight: 700; color: #374151;
-      padding: 4px 7px; border-radius: 6px;
-      background: var(--cream); border: 1.5px solid var(--pale);
-      width: 110px; outline: none; font-family: inherit;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      cursor: text;
-    }
-    .cls-name:focus { border-color: var(--brown); background: white; }
-
-    /* exam checkbox */
-    .exam-cell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-    .exam-cb-wrap {
-      display: flex; align-items: center; gap: 4px;
-      cursor: pointer; user-select: none;
-    }
-    .exam-cb-wrap input[type="checkbox"] {
-      width: 15px; height: 15px; cursor: pointer;
-      accent-color: var(--brown);
-    }
-    .exam-cb-lbl { font-size: 10px; font-weight: 700; color: var(--med); }
+    /* ── HONORS CHECKBOX ── */
+    .hon-cb-wrap { display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer; }
+    .hon-cb-wrap input { width:15px; height:15px; cursor:pointer; accent-color:#7c3aed; }
+    .hon-cb-lbl { font-size:9px; font-weight:800; color:#7c3aed; letter-spacing:.04em; }
 
     /* ── GRADE CELL ── */
-    .gcell {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 52px; height: 36px; border-radius: 9px;
-      border: 2px solid #e5e7eb; background: #f9fafb;
-      font-size: 14px; font-weight: 900; color: #9ca3af;
-      cursor: default; transition: all .12s;
-      outline: none; position: relative;
-    }
-    .gcell:focus {
-      border-color: var(--brown);
-      box-shadow: 0 0 0 3px rgba(90,45,12,.18);
-      background: #fffcf7;
-      color: var(--brown);
-    }
-    .gcell.has-grade {
-      border-color: transparent;
-    }
-    .gcell.disabled {
-      opacity: .25; pointer-events: none; tabindex: -1;
-    }
-    /* pulse when grade just set */
-    @keyframes gradePop { 0%{transform:scale(.82)} 60%{transform:scale(1.1)} 100%{transform:scale(1)} }
-    .gcell.pop { animation: gradePop .2s ease; }
+    .gcell { display:inline-flex; align-items:center; justify-content:center; width:50px; height:34px; border-radius:8px; border:2px solid #e5e7eb; background:#f9fafb; font-size:14px; font-weight:900; color:#9ca3af; cursor:default; transition:all .12s; outline:none; }
+    .gcell:focus { border-color:var(--brown); box-shadow:0 0 0 3px rgba(90,45,12,.18); background:#fffcf7; color:var(--brown); }
+    .gcell.has-grade { border-color:transparent; }
+    .gcell.disabled { opacity:.2; pointer-events:none; }
+    @keyframes gradePop { 0%{transform:scale(.8)} 60%{transform:scale(1.1)} 100%{transform:scale(1)} }
+    .gcell.pop { animation:gradePop .2s ease; }
 
     /* ── RESULT BADGE ── */
-    .rbadge {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-width: 48px; padding: 5px 9px; border-radius: 9px;
-      font-size: 14px; font-weight: 900;
-      background: #f3f4f6; color: #9ca3af;
-      gap: 2px;
-    }
-    .rbadge.yr { font-size: 16px; min-width: 54px; padding: 6px 11px; }
+    .rbadge { display:inline-flex; align-items:center; justify-content:center; min-width:46px; padding:4px 8px; border-radius:8px; font-size:14px; font-weight:900; background:#f3f4f6; color:#9ca3af; gap:2px; }
+    .rbadge.yr { font-size:15px; min-width:52px; padding:5px 10px; }
+    .rbadge.na { font-size:11px; color:#d1d5db; background:transparent; }
 
-    /* flag */
-    .flag-cb { width: 17px; height: 17px; cursor: pointer; accent-color: var(--flag); }
-    .flag-td { position: relative; }
+    /* ── FLAG ── */
+    .flag-cb { width:17px; height:17px; cursor:pointer; accent-color:var(--flag); }
+    .flag-td { position:relative; }
 
     /* ── SINGLE MODE ── */
-    .single-wrap { max-width: 1080px; margin: 0 auto; }
-    .single-card {
-      background: white; border-radius: 16px;
-      box-shadow: 0 4px 28px rgba(90,45,12,.10);
-      border: 2px solid transparent; transition: border-color .2s;
-    }
-    .single-card.flagged { border-color: #fca5a5; background: #fff8f8; }
-    .single-inner { padding: 20px 22px; overflow-x: auto; }
-    .single-toprow {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1.5px solid var(--pale);
-    }
-    .sname-input {
-      padding: 7px 11px; border: 2px solid var(--pale); border-radius: 8px;
-      font-size: 13px; font-weight: 700; font-family: inherit; color: #111;
-      background: white; outline: none; width: 200px;
-    }
-    .sname-input:focus { border-color: var(--brown); }
-    .exam-tog-s {
-      display: flex; gap: 3px; background: var(--cream);
-      border: 1.5px solid var(--pale); border-radius: 9px; padding: 3px;
-    }
-    .etbtn {
-      padding: 5px 11px; border: none; border-radius: 7px;
-      font-size: 11px; font-weight: 700; font-family: inherit;
-      cursor: pointer; color: var(--med); background: transparent; transition: all .12s;
-    }
-    .etbtn.active { background: var(--brown); color: white; }
-    .sflag-wrap { margin-left: auto; display: flex; align-items: center; gap: 6px; cursor: pointer; }
-    .sflag-wrap input { width: 16px; height: 16px; accent-color: var(--flag); cursor: pointer; }
-    .sflag-lbl { font-size: 11px; font-weight: 700; color: var(--flag); text-transform: uppercase; letter-spacing: .05em; }
-
-    .single-grades {
-      display: flex; align-items: flex-end; gap: 12px; flex-wrap: nowrap;
-      padding-bottom: 4px; overflow-x: auto;
-    }
-    .gcol { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
-    .gcol-lbl {
-      font-size: 9px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: .08em; color: var(--med); white-space: nowrap;
-    }
-    .gcol-lbl.s1 { color: var(--s1); }
-    .gcol-lbl.s2 { color: var(--s2); }
-    .gcol-lbl.yr { color: var(--brown); }
-    .arr { font-size: 22px; color: #d1d5db; padding-bottom: 20px; flex-shrink: 0; }
+    .single-wrap { max-width:1120px; margin:0 auto; }
+    .single-card { background:white; border-radius:16px; box-shadow:0 4px 28px rgba(90,45,12,.10); border:2px solid transparent; transition:border-color .2s; }
+    .single-card.flagged { border-color:#fca5a5; background:#fff8f8; }
+    .single-inner { padding:20px 22px; overflow-x:auto; }
+    .single-toprow { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; padding-bottom:12px; border-bottom:1.5px solid var(--pale); }
+    .sname-input { padding:7px 11px; border:2px solid var(--pale); border-radius:8px; font-size:13px; font-weight:700; font-family:inherit; color:#111; background:white; outline:none; width:190px; }
+    .sname-input:focus { border-color:var(--brown); }
+    .type3-lg { display:flex; gap:4px; background:var(--cream); border:1.5px solid var(--pale); border-radius:10px; padding:3px; }
+    .t3btn-lg { padding:6px 12px; border:none; border-radius:7px; font-size:11px; font-weight:700; font-family:inherit; cursor:pointer; color:var(--med); background:transparent; transition:all .12s; }
+    .t3btn-lg.active-E { background:#1d4ed8; color:white; }
+    .t3btn-lg.active-N { background:#15803d; color:white; }
+    .t3btn-lg.active-H { background:#7c3aed; color:white; }
+    .shon-wrap { display:flex; align-items:center; gap:5px; cursor:pointer; padding:5px 10px; border-radius:8px; border:1.5px solid var(--pale); background:white; transition:all .12s; }
+    .shon-wrap:hover { border-color:#7c3aed; }
+    .shon-wrap input { width:14px; height:14px; cursor:pointer; accent-color:#7c3aed; }
+    .shon-wrap span { font-size:11px; font-weight:700; color:#7c3aed; }
+    .sflag-wrap { margin-left:auto; display:flex; align-items:center; gap:6px; cursor:pointer; }
+    .sflag-wrap input { width:16px; height:16px; accent-color:var(--flag); cursor:pointer; }
+    .sflag-lbl { font-size:11px; font-weight:700; color:var(--flag); text-transform:uppercase; letter-spacing:.05em; }
+    .single-grades { display:flex; align-items:flex-end; gap:12px; flex-wrap:nowrap; padding-bottom:4px; overflow-x:auto; }
+    .gcol { display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; }
+    .gcol-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--med); white-space:nowrap; }
+    .gcol-lbl.s1 { color:var(--s1); }
+    .gcol-lbl.s2 { color:var(--s2); }
+    .gcol-lbl.yr { color:var(--brown); }
+    .arr { font-size:22px; color:#d1d5db; padding-bottom:18px; flex-shrink:0; }
 
     /* ── ACTION + INFO ── */
-    .action-bar {
-      max-width: 1080px; margin: 12px auto 0;
-      display: flex; gap: 8px;
-    }
-    .abtn {
-      padding: 9px 16px; border-radius: 9px; font-size: 12px; font-weight: 700;
-      font-family: inherit; cursor: pointer; transition: all .15s;
-      border: 2px solid var(--pale); background: white; color: var(--med);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .abtn:hover { border-color: var(--brown); color: var(--brown); }
-    .info-box {
-      max-width: 1080px; margin: 12px auto 0;
-      background: var(--cream); border: 1.5px solid var(--pale);
-      border-radius: 11px; padding: 12px 16px;
-      font-size: 11px; color: var(--med); line-height: 1.9;
-    }
-    .info-ttl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; color: var(--light); margin-bottom: 6px; }
-    .info-box strong { color: var(--brown); }
-    .info-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
+    .action-bar { max-width:1120px; margin:12px auto 0; display:flex; gap:8px; }
+    .abtn { padding:9px 16px; border-radius:9px; font-size:12px; font-weight:700; font-family:inherit; cursor:pointer; transition:all .15s; border:2px solid var(--pale); background:white; color:var(--med); display:flex; align-items:center; gap:6px; }
+    .abtn:hover { border-color:var(--brown); color:var(--brown); }
+    .info-box { max-width:1120px; margin:12px auto 0; background:var(--cream); border:1.5px solid var(--pale); border-radius:11px; padding:12px 16px; font-size:11px; color:var(--med); line-height:1.9; }
+    .info-ttl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.09em; color:var(--light); margin-bottom:6px; }
+    .info-box strong { color:var(--brown); }
+    .info-grid { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; }
+
+    /* ── HONOR ROLL MODAL ── */
+    .hr-overlay { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; animation:fadeIn .18s ease; }
+    .hr-modal { background:white; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.3); width:100%; max-width:620px; max-height:90vh; overflow-y:auto; }
+    .hr-modal-hdr { display:flex; align-items:center; justify-content:space-between; padding:18px 22px 14px; border-bottom:2px solid var(--pale); }
+    .hr-modal-title { font-size:17px; font-weight:900; color:var(--brown); display:flex; align-items:center; gap:8px; }
+    .hr-close { width:30px; height:30px; border-radius:8px; border:2px solid var(--pale); background:white; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; color:var(--med); transition:all .12s; }
+    .hr-close:hover { background:var(--cream); border-color:var(--brown); }
+    .hr-body { padding:20px 22px; }
+    .gpa-display { text-align:center; margin-bottom:20px; }
+    .gpa-num { font-size:56px; font-weight:900; color:var(--brown); line-height:1; }
+    .gpa-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--light); margin-top:4px; }
+    .hr-status-badge { display:inline-block; padding:9px 22px; border-radius:99px; font-size:14px; font-weight:800; margin:12px auto 0; }
+    .hr-status-badge.principal { background:#fef9c3; color:#713f12; border:2.5px solid #eab308; }
+    .hr-status-badge.honor { background:#dcfce7; color:#14532d; border:2.5px solid #22c55e; }
+    .hr-status-badge.none { background:#fee2e2; color:#7f1d1d; border:2.5px solid #ef4444; }
+    .hr-notes { margin:12px 0; padding:10px 14px; background:var(--cream); border-radius:9px; border-left:4px solid var(--pale); font-size:11px; color:var(--med); line-height:1.7; }
+    .hr-notes strong { color:var(--brown); }
+    .hr-breakdown { width:100%; border-collapse:collapse; margin-top:16px; font-size:12px; }
+    .hr-breakdown th { background:var(--cream); color:var(--med); font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; padding:8px 10px; text-align:left; border-bottom:2px solid var(--pale); }
+    .hr-breakdown th:not(:first-child) { text-align:center; }
+    .hr-breakdown td { padding:8px 10px; border-bottom:1px solid var(--pale); color:#374151; }
+    .hr-breakdown td:not(:first-child) { text-align:center; }
+    .hr-breakdown tr:last-child td { border-bottom:none; }
+    .hr-breakdown tr.flagged-row td { background:#fff5f5; }
+    .hr-breakdown .total-row td { font-weight:800; background:var(--cream); border-top:2px solid var(--pale); font-size:12px; }
+    .hr-grade-chip { display:inline-block; padding:2px 8px; border-radius:5px; font-weight:800; font-size:12px; }
+    .hr-sep { font-size:10px; color:#d1d5db; }
 
     /* ── PRINT ── */
-    .print-only { display: none; }
     @media print {
-      @page { size: landscape; margin: 1.2cm; }
-      body { background: white; padding: 0; font-size: 12px; }
-      .no-print, .settings, .action-bar, .info-box, .hbtn { display: none !important; }
-      .hdr { padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid #ccc; }
-      .controls { margin-bottom: 8px; }
-      .sem-tog { border: 1px solid #ccc; }
-      .sbtn { padding: 3px 10px; font-size: 11px; }
-      .tbl-wrap, .single-card { box-shadow: none; border: 1px solid #ccc; border-radius: 6px; }
-      th { padding: 5px 4px; font-size: 8px; }
-      td { padding: 4px 3px; }
-      .gcell { font-size: 12px; width: 40px; height: 28px; border: none; background: transparent; }
-      .gcell.has-grade { border-radius: 4px; }
-      .rbadge { font-size: 12px; padding: 2px 6px; min-width: 36px; }
-      .rbadge.yr { font-size: 14px; }
-      .cls-name { font-size: 11px; background: transparent; border: none; }
-      tbody tr.flagged td { background: #fff0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .gcell, .rbadge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .exam-cell { display: none; }
-      .flag-td input { display: none; }
-      .flag-td::after { content: attr(data-flagged); font-size: 10px; color: var(--flag); font-weight: 800; }
-      .print-only { display: block !important; }
-      .student-input { border: none; font-size: 14px; font-weight: 700; }
+      @page { size:landscape; margin:1.2cm; }
+      body { background:white; padding:0; }
+      .no-print,.settings,.action-bar,.info-box,.hbtn,.hr-overlay,.hr-btn { display:none !important; }
+      .hdr { padding-bottom:8px; margin-bottom:8px; border-bottom:1px solid #ccc; }
+      .controls { margin-bottom:8px; }
+      .sem-tog { border:1px solid #ccc; }
+      .sbtn { padding:3px 10px; font-size:11px; }
+      .tbl-wrap,.single-card { box-shadow:none; border:1px solid #ccc; border-radius:6px; }
+      th,td { padding:4px 3px; }
+      th { font-size:8px; }
+      .gcell { font-size:12px; width:38px; height:26px; border:none; background:transparent; }
+      .gcell.has-grade { border-radius:4px; }
+      .rbadge { font-size:12px; padding:2px 5px; min-width:34px; }
+      .rbadge.yr { font-size:13px; }
+      .cls-name { font-size:11px; background:transparent; border:none; }
+      tbody tr.flagged td { background:#fff0f0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .gcell,.rbadge { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .type3,.hon-cb-wrap,.flag-td input { display:none; }
+      .flag-td::after { content:attr(data-flagged); font-size:10px; color:var(--flag); font-weight:800; }
+      .student-input { border:none; font-size:14px; font-weight:700; }
     }
-
     @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
   </style>
 </head>
@@ -309,27 +203,28 @@
   <div class="settings-lbl">⚙️ Settings</div>
   <div class="settings-row">
     <span style="font-size:12px;font-weight:700;color:var(--med)">Mode:</span>
-    <div class="mode-btns">
+    <div style="display:flex;gap:4px">
       <button class="mbtn" id="mbtn-single" onclick="setMode('single')">📋 Single Class</button>
-      <button class="mbtn active" id="mbtn-multi"  onclick="setMode('multi')">📚 All 7 Classes</button>
+      <button class="mbtn active" id="mbtn-multi" onclick="setMode('multi')">📚 All 7 Classes</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ SEMESTER TOGGLE ═══ -->
+<!-- ═══ CONTROLS ═══ -->
 <div class="controls">
   <div class="sem-tog">
     <button class="sbtn s1 active" id="btn-s1" onclick="setSem(1)">📘 Semester 1</button>
-    <button class="sbtn s2"        id="btn-s2" onclick="setSem(2)">📗 Semester 2</button>
+    <button class="sbtn s2" id="btn-s2" onclick="setSem(2)">📗 Semester 2</button>
   </div>
+  <button class="hr-btn no-print" onclick="showHonorRoll()">🏆 Honor Roll Check</button>
   <div class="hint no-print">
-    <strong>Keyboard:</strong> <kbd>Tab</kbd> move between grades &nbsp;·&nbsp; <kbd>Enter</kbd> advance &nbsp;·&nbsp;
-    Press <kbd>A</kbd>or<kbd>1</kbd> &nbsp;<kbd>B</kbd>or<kbd>2</kbd> &nbsp;<kbd>C</kbd>or<kbd>3</kbd> &nbsp;<kbd>D</kbd>or<kbd>4</kbd> &nbsp;<kbd>F</kbd>or<kbd>5</kbd> — <strong>1st press=+, 2nd=normal, 3rd=−, 4th=clear</strong>
-    &nbsp;·&nbsp; <kbd>Del</kbd> clear &nbsp;·&nbsp; <kbd>1</kbd>/<kbd>2</kbd> switch semester &nbsp;·&nbsp; <kbd>Esc</kbd> clear all
+    <strong>Keys:</strong> <kbd>Tab</kbd>/<kbd>Enter</kbd> advance &nbsp;·&nbsp;
+    <kbd>A</kbd>or<kbd>1</kbd> &nbsp;<kbd>B</kbd>or<kbd>2</kbd> &nbsp;<kbd>C</kbd>or<kbd>3</kbd> &nbsp;<kbd>D</kbd>or<kbd>4</kbd> &nbsp;<kbd>F</kbd>or<kbd>5</kbd>
+    — <strong>1×=+&nbsp; 2×=normal&nbsp; 3×=−</strong> &nbsp;·&nbsp; <kbd>Del</kbd> clear &nbsp;·&nbsp; <kbd>Esc</kbd> clear all
   </div>
 </div>
 
-<!-- ═══ MAIN CONTENT ═══ -->
+<!-- ═══ CONTENT ═══ -->
 <div id="content"></div>
 
 <!-- ═══ ACTIONS ═══ -->
@@ -339,17 +234,29 @@
 
 <!-- ═══ INFO ═══ -->
 <div class="info-box no-print">
-  <div class="info-ttl">📖 How grades are calculated</div>
+  <div class="info-ttl">📖 Class Types &amp; Honor Roll</div>
   <div class="info-grid">
-    <strong>With Exam:</strong><span>Q1+Q2 → Chart A quality points + Midterm → Chart B → Semester grade. Q3+Q4 + Final → same. Sem1+Sem2 → Chart C → Year.</span>
-    <strong>No Exam:</strong><span>Q1+Q2 → Quarter Chart → Semester grade. Sem1+Sem2 → Chart C → Year. <em>(Midterm/Final fields are disabled.)</em></span>
-    <strong>"Has Exam" ✓:</strong><span>Check this box if the class has a Midterm or Final exam score. Uncheck for quarter-only classes (electives, gym, etc.).</span>
-    <strong>Flag ⚑:</strong><span>Check when the calculated grade doesn't match what's on the transcript — flags the row in red for the printed copy.</span>
+    <strong>E — With Exam:</strong><span>Year-long class with Midterm &amp; Final. Q1+Q2+Midterm → Sem 1. Q3+Q4+Final → Sem 2. Sem1+Sem2 → Year. (4 credits)</span>
+    <strong>N — No Exam:</strong><span>Year-long class, quarters only. Q1+Q2 → Sem 1. Q3+Q4 → Sem 2. Sem1+Sem2 → Year. (4 credits)</span>
+    <strong>H — Half Credit:</strong><span>Semester class, no exam. Only Q1+Q2 (Sem 1) or Q3+Q4 (Sem 2) → Semester grade. No year grade. (2 credits)</span>
+    <strong>Hon/AP ✓:</strong><span>Check for Honors or AP courses — grade scale goes to 5.0 instead of 4.0 for GPA purposes.</span>
+    <strong>🏆 Honor Roll:</strong><span>Principal's HR = GPA ≥ 4.0, no grade below B. Honor Roll = GPA ≥ 3.5, no grade below B−. Calculates from all classes with grades entered.</span>
+  </div>
+</div>
+
+<!-- ═══ HONOR ROLL MODAL ═══ -->
+<div class="hr-overlay" id="hr-overlay" style="display:none" onclick="if(event.target===this)closeHonorRoll()">
+  <div class="hr-modal">
+    <div class="hr-modal-hdr">
+      <div class="hr-modal-title">🏆 Honor Roll Check</div>
+      <button class="hr-close" onclick="closeHonorRoll()">✕</button>
+    </div>
+    <div class="hr-body" id="hr-body"><!-- filled by JS --></div>
   </div>
 </div>
 
 <script>
-// ════════════ CHART DATA ════════════
+// ══════════ CHART DATA ══════════
 const GK = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'];
 const CHART_A = [
   [36,34.5,33,31.5,30,28.5,27,25.5,24,22.5,21,19.5,18],
@@ -425,330 +332,395 @@ const CHART_C=[
   ['A+/F','A/F','A-/F','B+/F','B/F','B-/F','C+/F','C/F','C-/F','D+/F','D/F','D-/F','F']
 ];
 
-// ════════════ LOOKUPS ════════════
+// ══════════ LOOKUPS ══════════
 function aLookup(q1,q2){const c=GK.indexOf(q1),r=GK.indexOf(q2);return(c<0||r<0)?null:CHART_A[r][c];}
-function bLookup(qp,ex){
-  if(qp==null)return null;const ei=GK.indexOf(ex);if(ei<0)return null;
-  let ri=0,best=Infinity;for(let i=0;i<CBR.length;i++){const d=Math.abs(CBR[i]-qp);if(d<best){best=d;ri=i;}}
-  return CHART_B[ri][ei];
-}
+function bLookup(qp,ex){if(qp==null)return null;const ei=GK.indexOf(ex);if(ei<0)return null;let ri=0,best=Infinity;for(let i=0;i<CBR.length;i++){const d=Math.abs(CBR[i]-qp);if(d<best){best=d;ri=i;}}return CHART_B[ri][ei];}
 function qsLookup(a,b){const c=GK.indexOf(a),r=GK.indexOf(b);return(c<0||r<0)?null:CHART_QS[r][c];}
-function cLookup(s1,s2){
-  const a=String(s1).split('/')[0].trim(),b=String(s2).split('/')[0].trim();
-  const c=GK.indexOf(a),r=GK.indexOf(b);return(c<0||r<0)?null:CHART_C[r][c];
-}
+function cLookup(s1,s2){const a=String(s1).split('/')[0].trim(),b=String(s2).split('/')[0].trim();const c=GK.indexOf(a),r=GK.indexOf(b);return(c<0||r<0)?null:CHART_C[r][c];}
 
-// ════════════ COLORS ════════════
+// ══════════ COLORS ══════════
 function gcol(g){if(!g)return'#9ca3af';const l=String(g).split('/')[0].trim();if(l[0]==='A')return'#15803d';if(l[0]==='B')return'#1d4ed8';if(l[0]==='C')return'#b45309';if(l[0]==='D')return'#be123c';return'#7f1d1d';}
 function gbg(g){if(!g)return'#f3f4f6';const l=String(g).split('/')[0].trim();if(l[0]==='A')return'#dcfce7';if(l[0]==='B')return'#dbeafe';if(l[0]==='C')return'#fef3c7';if(l[0]==='D')return'#ffe4e6';return'#fee2e2';}
 
-// ════════════ GRADE STATE ════════════
-const GS = {}; // fieldId → grade string or null
+// ══════════ GRADE CYCLING ══════════
+const GS = {};
 function getG(id){return GS[id]||null;}
 
 function cycleGrade(fieldId, letter) {
-  const cur = GS[fieldId] || null;
+  const cur = GS[fieldId]||null;
   let next;
-  if (letter === 'F') {
-    next = (cur === 'F') ? null : 'F';
-  } else {
-    const p=letter+'+', n=letter, m=letter+'-';
-    if (!cur || cur[0]!==letter) next = p;
-    else if (cur===p) next = n;
-    else if (cur===n) next = m;
-    else next = null;
+  if (letter==='F') { next=(cur==='F')?null:'F'; }
+  else {
+    const p=letter+'+',n=letter,m=letter+'-';
+    if(!cur||cur[0]!==letter) next=p;
+    else if(cur===p) next=n;
+    else if(cur===n) next=m;
+    else next=null;
   }
-  GS[fieldId] = next;
+  GS[fieldId]=next;
   refreshCell(fieldId);
-  const clsId = fieldId.slice(0, fieldId.lastIndexOf('-'));
-  refreshResults(clsId);
+  refreshResults(fieldId.slice(0,fieldId.lastIndexOf('-')));
 }
 
 function refreshCell(fieldId) {
-  const el = document.querySelector(`.gcell[data-f="${fieldId}"]`);
-  if (!el) return;
-  const g = GS[fieldId] || null;
-  applyGradeToCell(el, g);
+  const el=document.querySelector(`.gcell[data-f="${fieldId}"]`);
+  if(!el) return;
+  const g=GS[fieldId]||null;
+  if(g){el.textContent=g;el.style.color=gcol(g);el.style.background=gbg(g);el.style.borderColor='transparent';el.classList.add('has-grade');el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+  else{el.textContent='—';el.style.color='#9ca3af';el.style.background='#f9fafb';el.style.borderColor='#e5e7eb';el.classList.remove('has-grade','pop');}
 }
 
-function applyGradeToCell(el, g) {
-  if (g) {
-    el.textContent = g;
-    el.style.color = gcol(g);
-    el.style.background = gbg(g);
-    el.style.borderColor = 'transparent';
-    el.classList.add('has-grade');
-    el.classList.remove('pop');
-    void el.offsetWidth; // reflow for animation restart
-    el.classList.add('pop');
-  } else {
-    el.textContent = '—';
-    el.style.color = '#9ca3af';
-    el.style.background = '#f9fafb';
-    el.style.borderColor = '#e5e7eb';
-    el.classList.remove('has-grade','pop');
-  }
+function setResultEl(el,g){
+  if(!el)return;
+  if(!g){el.innerHTML='—';el.style.color='#9ca3af';el.style.background='#f3f4f6';return;}
+  const parts=String(g).split('/');
+  if(parts.length>1){
+    el.style.background='transparent';el.style.color='';
+    el.innerHTML=parts.map(p=>{p=p.trim();return`<span style="color:${gcol(p)};background:${gbg(p)};padding:1px 6px;border-radius:5px;font-size:.88em;font-weight:900">${p}</span>`;}).join('<span style="color:#9ca3af;font-size:.8em;margin:0 1px">/</span>');
+  }else{el.textContent=g;el.style.color=gcol(g);el.style.background=gbg(g);}
 }
 
-function setResultEl(el, g) {
-  if (!el) return;
-  if (!g) {
-    el.innerHTML = '—'; el.style.color='#9ca3af'; el.style.background='#f3f4f6';
-    return;
-  }
-  const parts = String(g).split('/');
-  if (parts.length > 1) {
-    el.style.background = 'transparent'; el.style.color = '';
-    el.innerHTML = parts.map(p=>{p=p.trim();return`<span style="color:${gcol(p)};background:${gbg(p)};padding:2px 6px;border-radius:5px;font-size:.88em;font-weight:900">${p}</span>`;}).join('<span style="color:#9ca3af;font-size:.8em;margin:0 1px">/</span>');
-  } else {
-    el.textContent = g; el.style.color = gcol(g); el.style.background = gbg(g);
-  }
-}
-
-// ════════════ COMPUTE ════════════
-function compute(clsId, type, sem) {
-  if (sem===1) {
-    const q1=getG(`${clsId}-q1`), q2=getG(`${clsId}-q2`);
-    let s1=null;
-    if (type==='exam') { const mid=getG(`${clsId}-mid`), qp=(q1&&q2)?aLookup(q1,q2):null; s1=(qp!==null&&mid)?bLookup(qp,mid):null; }
-    else s1=(q1&&q2)?qsLookup(q1,q2):null;
-    return {s1,s2:null,yr:null};
-  } else {
-    const s1m=getG(`${clsId}-sem1`), q3=getG(`${clsId}-q3`), q4=getG(`${clsId}-q4`);
-    let s2=null;
-    if (type==='exam') { const fin=getG(`${clsId}-fin`), qp=(q3&&q4)?aLookup(q3,q4):null; s2=(qp!==null&&fin)?bLookup(qp,fin):null; }
-    else s2=(q3&&q4)?qsLookup(q3,q4):null;
-    const yr=(s1m&&s2)?cLookup(s1m,s2):null;
-    return {s1:null,s2,yr};
+// ══════════ COMPUTE ══════════
+function compute(clsId, type, s) {
+  if (type==='exam') {
+    if(s===1){const q1=getG(`${clsId}-q1`),q2=getG(`${clsId}-q2`),mid=getG(`${clsId}-mid`),qp=(q1&&q2)?aLookup(q1,q2):null,s1=(qp!==null&&mid)?bLookup(qp,mid):null;return{s1,s2:null,yr:null};}
+    else{const s1m=getG(`${clsId}-sem1`),q3=getG(`${clsId}-q3`),q4=getG(`${clsId}-q4`),fin=getG(`${clsId}-fin`),qp=(q3&&q4)?aLookup(q3,q4):null,s2=(qp!==null&&fin)?bLookup(qp,fin):null,yr=(s1m&&s2)?cLookup(s1m,s2):null;return{s1:null,s2,yr};}
+  } else if (type==='no-exam') {
+    if(s===1){const q1=getG(`${clsId}-q1`),q2=getG(`${clsId}-q2`),s1=(q1&&q2)?qsLookup(q1,q2):null;return{s1,s2:null,yr:null};}
+    else{const s1m=getG(`${clsId}-sem1`),q3=getG(`${clsId}-q3`),q4=getG(`${clsId}-q4`),s2=(q3&&q4)?qsLookup(q3,q4):null,yr=(s1m&&s2)?cLookup(s1m,s2):null;return{s1:null,s2,yr};}
+  } else { // 'half' — semester only, no exam, no year grade
+    if(s===1){const q1=getG(`${clsId}-q1`),q2=getG(`${clsId}-q2`),s1=(q1&&q2)?qsLookup(q1,q2):null;return{s1,s2:null,yr:null};}
+    else{const q3=getG(`${clsId}-q3`),q4=getG(`${clsId}-q4`),s2=(q3&&q4)?qsLookup(q3,q4):null;return{s1:null,s2,yr:null};} // no sem1 manual, no year
   }
 }
 
 function refreshResults(clsId) {
-  const cls = getClsObj(clsId);
-  if (!cls) return;
-  const r = compute(clsId, cls.type, sem);
-  setResultEl(document.getElementById(`r-s1-${clsId}`), r.s1);
-  setResultEl(document.getElementById(`r-s2-${clsId}`), r.s2);
-  setResultEl(document.getElementById(`r-yr-${clsId}`), r.yr);
+  const cls=getClsObj(clsId); if(!cls)return;
+  const r=compute(clsId,cls.type,sem);
+  setResultEl(document.getElementById(`r-s1-${clsId}`),r.s1);
+  setResultEl(document.getElementById(`r-s2-${clsId}`),r.s2);
+  setResultEl(document.getElementById(`r-yr-${clsId}`),r.yr);
 }
 
-// ════════════ STATE ════════════
-let sem  = 1;
-let mode = 'multi';
-let settingsOpen = false;
+// ══════════ STATE ══════════
+let sem=1, mode='multi', settingsOpen=false;
+const DEFAULT_NAMES=['English','Math','Religion','Science','Social Studies','',''];
+const singleCls={id:'sc',name:'',type:'exam',honors:false,flagged:false};
+const multiCls=DEFAULT_NAMES.map((name,i)=>({id:`mc${i}`,name,type:'exam',honors:false,flagged:false}));
+function getClsObj(id){if(id==='sc')return singleCls;return multiCls.find(c=>c.id===id)||null;}
 
-const DEFAULT_NAMES = ['English','Math','Religion','Science','Social Studies','',''];
-
-const singleCls = { id:'sc', name:'', type:'exam', flagged:false };
-const multiCls  = DEFAULT_NAMES.map((name, i) => ({
-  id: `mc${i}`, name, type: 'exam', flagged: false
-}));
-
-function getClsObj(id) {
-  if (id==='sc') return singleCls;
-  return multiCls.find(c=>c.id===id)||null;
-}
-
-// ════════════ GRADE CELL HTML ════════════
+// ══════════ GRADE CELL HTML ══════════
 function gcellHTML(fieldId, disabled) {
-  const g = GS[fieldId]||null;
-  const dis = disabled?' gcell-disabled disabled':'';
-  const ti  = disabled?'-1':'0';
-  const style= g ? `color:${gcol(g)};background:${gbg(g)};border-color:transparent` : '';
-  return `<div class="gcell${dis}${g?' has-grade':''}" tabindex="${ti}" data-f="${fieldId}"
-    onkeydown="gcKey(event,'${fieldId}')"
-    title="A or 1 = A  ·  B or 2 = B  ·  C or 3 = C  ·  D or 4 = D  ·  F or 5 = F  |  1st press=+, 2nd=normal, 3rd=−, 4th=clear  |  Del=clear  Tab/Enter=next"
-    style="${style}">${g||'—'}</div>`;
+  const g=GS[fieldId]||null;
+  const dis=disabled?' gcell disabled':'';
+  const ti=disabled?'-1':'0';
+  const style=g?`color:${gcol(g)};background:${gbg(g)};border-color:transparent`:'';
+  return `<div class="gcell${dis}${g?' has-grade':''}" tabindex="${ti}" data-f="${fieldId}" onkeydown="gcKey(event,'${fieldId}')" title="A/1=A  B/2=B  C/3=C  D/4=D  F/5=F | 1×=+  2×=normal  3×=−  4×=clear | Del=clear" style="${style}">${g||'—'}</div>`;
 }
 
-// ════════════ KEYDOWN HANDLER ════════════
+// ══════════ KEYDOWN ══════════
 function gcKey(e, fieldId) {
-  // Number keys: 1=A, 2=B, 3=C, 4=D, 5=F
-  const numMap = {'1':'A','2':'B','3':'C','4':'D','5':'F'};
-  const k = numMap[e.key] || e.key.toUpperCase();
-  if (['A','B','C','D','F'].includes(k)) {
-    e.preventDefault();
-    cycleGrade(fieldId, k);
-  } else if (k==='BACKSPACE'||k==='DELETE') {
-    e.preventDefault();
-    GS[fieldId]=null; refreshCell(fieldId);
-    const clsId=fieldId.slice(0,fieldId.lastIndexOf('-')); refreshResults(clsId);
-  } else if (k==='ENTER'||k==='TAB') {
-    // Let Tab work naturally; for Enter, move forward explicitly
-    if (k==='ENTER') { e.preventDefault(); moveFwd(e.target); }
-  }
+  const nm={'1':'A','2':'B','3':'C','4':'D','5':'F'};
+  const k=nm[e.key]||e.key.toUpperCase();
+  if(['A','B','C','D','F'].includes(k)){e.preventDefault();cycleGrade(fieldId,k);}
+  else if(k==='BACKSPACE'||k==='DELETE'){e.preventDefault();GS[fieldId]=null;refreshCell(fieldId);refreshResults(fieldId.slice(0,fieldId.lastIndexOf('-')));}
+  else if(k==='ENTER'){e.preventDefault();moveFwd(e.target);}
 }
+function moveFwd(el){const all=[...document.querySelectorAll('[tabindex="0"]:not(.disabled)')].filter(e=>!e.disabled);const i=all.indexOf(el);if(i>=0&&i<all.length-1)all[i+1].focus();}
 
-function moveFwd(el) {
-  const all=[...document.querySelectorAll('[tabindex="0"]:not(.disabled)')].filter(e=>!e.disabled);
-  const i=all.indexOf(el);
-  if(i>=0&&i<all.length-1) all[i+1].focus();
-}
-
-// ════════════ RENDER ════════════
-function render() {
-  if (mode==='single') renderSingle();
-  else renderMulti();
-}
-
+// ══════════ RENDER MULTI ══════════
 function renderMulti() {
-  let thCols='', colGroup='';
-  if (sem===1) {
-    thCols=`<th>Q1</th><th>Q2</th><th title="Only used if Has Exam is checked">Midterm</th><th class="rth">Sem 1</th>`;
-  } else {
-    thCols=`<th>Sem 1<br><span style="font-size:7px;font-weight:500;text-transform:none">from record</span></th><th>Q3</th><th>Q4</th><th title="Only used if Has Exam is checked">Final</th><th class="rth">Sem 2</th><th class="rth">Year</th>`;
-  }
+  // Column headers change based on semester
+  let thCols = sem===1
+    ? `<th>Q1</th><th>Q2</th><th title="Only for E classes">Mid</th><th class="rth">Sem 1</th>`
+    : `<th>Sem 1<br><span style="font-size:7px;font-weight:500;text-transform:none">record</span></th><th>Q3</th><th>Q4</th><th title="Only for E classes">Final</th><th class="rth">Sem 2</th><th class="rth">Year</th>`;
 
-  const rows = multiCls.map((cls,i)=>{
-    const {id,name,type,flagged}=cls;
-    const dis = type==='no-exam';
+  const rows = multiCls.map((cls,i) => {
+    const {id,name,type,honors,flagged}=cls;
+    const isExam=(type==='exam'), isHalf=(type==='half');
     let dataCols='';
     if (sem===1) {
-      dataCols=`<td>${gcellHTML(`${id}-q1`)}</td><td>${gcellHTML(`${id}-q2`)}</td><td>${gcellHTML(`${id}-mid`,dis)}</td>
+      dataCols=`<td>${gcellHTML(`${id}-q1`)}</td><td>${gcellHTML(`${id}-q2`)}</td>
+        <td>${gcellHTML(`${id}-mid`,!isExam)}</td>
         <td><div class="rbadge" id="r-s1-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>`;
     } else {
-      dataCols=`<td>${gcellHTML(`${id}-sem1`)}</td><td>${gcellHTML(`${id}-q3`)}</td><td>${gcellHTML(`${id}-q4`)}</td>
-        <td>${gcellHTML(`${id}-fin`,dis)}</td>
+      // Half credit: no sem1-manual, no final, no year
+      dataCols=`<td>${gcellHTML(`${id}-sem1`,isHalf)}</td>
+        <td>${gcellHTML(`${id}-q3`)}</td><td>${gcellHTML(`${id}-q4`)}</td>
+        <td>${gcellHTML(`${id}-fin`,!isExam)}</td>
         <td><div class="rbadge" id="r-s2-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>
-        <td><div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></td>`;
+        <td>${isHalf
+          ? `<div class="rbadge na" title="No year grade for half-credit classes">½</div>`
+          : `<div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div>`}</td>`;
     }
     return `<tr class="${flagged?'flagged':''}" id="row-${id}">
       <td class="rn">${i+1}</td>
-      <td><div class="cls-name" contenteditable="true" tabindex="-1"
-        onblur="multiCls[${i}].name=this.textContent.trim()"
-        style="outline:none">${name}</div></td>
+      <td><div class="cls-name" contenteditable="true" tabindex="-1" onblur="multiCls[${i}].name=this.textContent.trim()" style="outline:none">${name}</div></td>
       <td>
-        <div class="exam-cell">
-          <label class="exam-cb-wrap" title="Check if this class has a Midterm or Final exam score. Uncheck for quarter-only classes.">
-            <input type="checkbox" class="exam-cb" ${type==='exam'?'checked':''}
-              onchange="setMType(${i},this.checked?'exam':'no-exam')">
-            <span class="exam-cb-lbl">Has<br>Exam</span>
-          </label>
+        <div class="type3">
+          <button class="t3btn${type==='exam'?' active-E':''}" onclick="setMType(${i},'exam')" title="With Exam — has Midterm/Final">E</button>
+          <button class="t3btn${type==='no-exam'?' active-N':''}" onclick="setMType(${i},'no-exam')" title="No Exam — year-long, quarter grades only">N</button>
+          <button class="t3btn${type==='half'?' active-H':''}" onclick="setMType(${i},'half')" title="Half Credit — semester class, no exam (2 credits)">H</button>
         </div>
+      </td>
+      <td>
+        <label class="hon-cb-wrap" title="Honors or AP course (grade scale 5.0, +1.0 GPA boost)">
+          <input type="checkbox" ${honors?'checked':''} onchange="setMHonors(${i},this.checked)">
+          <span class="hon-cb-lbl">Hon</span>
+        </label>
       </td>
       ${dataCols}
       <td class="flag-td" data-flagged="${flagged?'⚑':''}">
-        <input type="checkbox" class="flag-cb" ${flagged?'checked':''} tabindex="0"
-          onchange="setMFlag(${i},this.checked)" title="Flag: calculated grade doesn't match transcript">
+        <input type="checkbox" class="flag-cb" ${flagged?'checked':''} tabindex="0" onchange="setMFlag(${i},this.checked)" title="Flag: grade doesn't match transcript">
       </td>
     </tr>`;
   }).join('');
 
   document.getElementById('content').innerHTML=`
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>#</th>
-          <th>Class</th>
-          <th title="Does this class have a Midterm/Final exam?">Has Exam?</th>
-          ${thCols}
-          <th class="flth" title="Flag if grade doesn't match">⚑ Flag</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>`;
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>#</th><th>Class</th>
+        <th title="E=With Exam  N=No Exam  H=Half Credit">Type</th>
+        <th class="hth" title="Honors/AP course">Hon/AP</th>
+        ${thCols}
+        <th class="flth">⚑</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
 
   multiCls.forEach(cls=>refreshResults(cls.id));
 }
 
+// ══════════ RENDER SINGLE ══════════
 function renderSingle() {
-  const {id,name,type,flagged}=singleCls;
-  const dis=type==='no-exam';
+  const {id,name,type,honors,flagged}=singleCls;
+  const isExam=(type==='exam'), isHalf=(type==='half');
   let grades='';
   if (sem===1) {
-    grades=`
-      <div class="gcol"><div class="gcol-lbl">Q1</div>${gcellHTML(`${id}-q1`)}</div>
+    grades=`<div class="gcol"><div class="gcol-lbl">Q1</div>${gcellHTML(`${id}-q1`)}</div>
       <div class="gcol"><div class="gcol-lbl">Q2</div>${gcellHTML(`${id}-q2`)}</div>
-      ${!dis?`<div class="gcol"><div class="gcol-lbl">Midterm</div>${gcellHTML(`${id}-mid`)}</div>`:''}
+      ${isExam?`<div class="gcol"><div class="gcol-lbl">Midterm</div>${gcellHTML(`${id}-mid`)}</div>`:''}
       <div class="arr">→</div>
-      <div class="gcol"><div class="gcol-lbl s1">Semester 1 Grade</div>
+      <div class="gcol"><div class="gcol-lbl s1">Semester 1</div>
         <div class="rbadge" id="r-s1-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>`;
   } else {
-    grades=`
-      <div class="gcol"><div class="gcol-lbl">Sem 1<br><span style="font-size:8px;font-weight:500;text-transform:none;letter-spacing:0">from record</span></div>${gcellHTML(`${id}-sem1`)}</div>
+    grades=`${!isHalf?`<div class="gcol"><div class="gcol-lbl">Sem 1<br><span style="font-size:8px;font-weight:500;text-transform:none;letter-spacing:0">from record</span></div>${gcellHTML(`${id}-sem1`)}</div>`:''}
       <div class="gcol"><div class="gcol-lbl">Q3</div>${gcellHTML(`${id}-q3`)}</div>
       <div class="gcol"><div class="gcol-lbl">Q4</div>${gcellHTML(`${id}-q4`)}</div>
-      ${!dis?`<div class="gcol"><div class="gcol-lbl">Final</div>${gcellHTML(`${id}-fin`)}</div>`:''}
+      ${isExam?`<div class="gcol"><div class="gcol-lbl">Final</div>${gcellHTML(`${id}-fin`)}</div>`:''}
       <div class="arr">→</div>
       <div class="gcol"><div class="gcol-lbl s2">Semester 2</div>
         <div class="rbadge" id="r-s2-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>
-      <div class="gcol"><div class="gcol-lbl yr">⭐ Year</div>
-        <div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>`;
+      ${!isHalf?`<div class="gcol"><div class="gcol-lbl yr">⭐ Year</div>
+        <div class="rbadge yr" id="r-yr-${id}" style="color:#9ca3af;background:#f3f4f6">—</div></div>`:''}`;
   }
-
   document.getElementById('content').innerHTML=`
-    <div class="single-wrap">
-      <div class="single-card${flagged?' flagged':''}" id="single-card">
-        <div class="single-inner">
-          <div class="single-toprow">
-            <input class="sname-input" type="text" placeholder="Class name (optional)…"
-              value="${name}" oninput="singleCls.name=this.value" tabindex="-1">
-            <div class="exam-tog-s">
-              <button class="etbtn${type==='exam'?' active':''}" onclick="setSType('exam')">📝 Has Exam</button>
-              <button class="etbtn${type==='no-exam'?' active':''}" onclick="setSType('no-exam')">📖 No Exam</button>
-            </div>
-            <label class="sflag-wrap">
-              <input type="checkbox" ${flagged?'checked':''} onchange="setSFlag(this.checked)" tabindex="0">
-              <span class="sflag-lbl">⚑ Flag Mismatch</span>
-            </label>
+    <div class="single-wrap"><div class="single-card${flagged?' flagged':''}" id="single-card">
+      <div class="single-inner">
+        <div class="single-toprow">
+          <input class="sname-input" type="text" placeholder="Class name…" value="${name}" oninput="singleCls.name=this.value" tabindex="-1">
+          <div class="type3-lg">
+            <button class="t3btn-lg${type==='exam'?' active-E':''}" onclick="setSType('exam')">📝 With Exam</button>
+            <button class="t3btn-lg${type==='no-exam'?' active-N':''}" onclick="setSType('no-exam')">📖 No Exam</button>
+            <button class="t3btn-lg${type==='half'?' active-H':''}" onclick="setSType('half')">½ Half Credit</button>
           </div>
-          <div class="single-grades">${grades}</div>
+          <label class="shon-wrap">
+            <input type="checkbox" ${honors?'checked':''} onchange="singleCls.honors=this.checked" tabindex="0">
+            <span>Honors/AP</span>
+          </label>
+          <label class="sflag-wrap">
+            <input type="checkbox" ${flagged?'checked':''} onchange="setSFlag(this.checked)" tabindex="0">
+            <span class="sflag-lbl">⚑ Flag Mismatch</span>
+          </label>
         </div>
+        <div class="single-grades">${grades}</div>
       </div>
-    </div>`;
+    </div></div>`;
   refreshResults(id);
 }
 
-// ════════════ SETTERS ════════════
+function render(){if(mode==='single')renderSingle();else renderMulti();}
+
+// ══════════ SETTERS ══════════
 function toggleSettings(){settingsOpen=!settingsOpen;document.getElementById('settings').classList.toggle('open',settingsOpen);}
 function setMode(m){mode=m;document.getElementById('mbtn-single').classList.toggle('active',m==='single');document.getElementById('mbtn-multi').classList.toggle('active',m==='multi');render();}
 function setSem(n){sem=n;document.getElementById('btn-s1').classList.toggle('active',n===1);document.getElementById('btn-s2').classList.toggle('active',n===2);render();}
 function setSType(t){singleCls.type=t;renderSingle();}
 function setSFlag(f){singleCls.flagged=f;document.getElementById('single-card')?.classList.toggle('flagged',f);}
 function setMType(i,t){multiCls[i].type=t;renderMulti();}
-function setMFlag(i,f){
-  multiCls[i].flagged=f;
-  const row=document.getElementById(`row-${multiCls[i].id}`);
-  if(row){row.classList.toggle('flagged',f);row.querySelector('.flag-td').dataset.flagged=f?'⚑':'';}
+function setMHonors(i,v){multiCls[i].honors=v;}
+function setMFlag(i,f){multiCls[i].flagged=f;const row=document.getElementById(`row-${multiCls[i].id}`);if(row){row.classList.toggle('flagged',f);row.querySelector('.flag-td').dataset.flagged=f?'⚑':'';}}
+
+// ══════════ CLEAR ══════════
+function clearAll(){Object.keys(GS).forEach(k=>delete GS[k]);singleCls.flagged=false;singleCls.name='';multiCls.forEach((c,i)=>{c.flagged=false;if(i>=5)c.name='';});render();}
+
+// ══════════ PRINT ══════════
+function doPrint(){document.title=`Grade Calc – ${document.getElementById('student-name').value||'Student'}`;window.print();}
+
+// ══════════ GPA / HONOR ROLL ══════════
+const GP = {'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,'C+':2.3,'C':2.0,'C-':1.7,'D+':1.3,'D':1.0,'D-':0.7,'F':0.0};
+const GRADE_ORDER = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'];
+
+function gradePoints(letter, honors) {
+  const base = GP[letter] ?? null;
+  if (base === null) return null;
+  return honors ? Math.min(base + 1.0, 5.0) : base;
 }
 
-// ════════════ CLEAR ════════════
-function clearAll(){
-  Object.keys(GS).forEach(k=>delete GS[k]);
-  singleCls.flagged=false; singleCls.name='';
-  multiCls.forEach((c,i)=>{c.flagged=false; if(i>=5)c.name='';});
-  render();
+function computeHonorRoll() {
+  const classes = (mode === 'multi') ? multiCls : [singleCls];
+  let totalQP = 0, totalCr = 0;
+  const rows = [], issues = [];
+  let phrMinOk = true, hrMinOk = true; // B and B- minimums
+  let hasGrades = false;
+
+  for (const cls of classes) {
+    const r = compute(cls.id, cls.type, sem);
+    // Pick the relevant semester grade
+    const rawGrade = (sem === 1) ? r.s1 : r.s2;
+    if (!rawGrade) continue; // no grade entered yet, skip
+    hasGrades = true;
+
+    // Handle dual grades like "A+/F" or "F/D+"
+    const parts = String(rawGrade).split('/');
+    const primary = parts[0].trim(); // use primary for GPA
+    const hasF = parts.some(p => p.trim() === 'F');
+    const letter = primary;
+
+    const credits = (cls.type === 'half') ? 2 : 4;
+    const gp = gradePoints(letter, cls.honors);
+    if (gp === null) continue;
+    const qp = gp * credits;
+    totalQP += qp; totalCr += credits;
+
+    // Minimum grade checks (on the letter grade itself, not GPA-adjusted)
+    const gi = GRADE_ORDER.indexOf(letter);
+    if (gi > GRADE_ORDER.indexOf('B') || hasF) { phrMinOk = false; issues.push({cls, grade: rawGrade, issue: 'below B'}); }
+    if (gi > GRADE_ORDER.indexOf('B-') || hasF) hrMinOk = false;
+
+    const fallback = cls.id==='sc' ? 'This Class' : `Class ${multiCls.indexOf(cls)+1}`;
+    rows.push({name: cls.name||fallback, grade:rawGrade, letter, gp, credits, qp, honors:cls.honors, isHalf:cls.type==='half', hasF});
+  }
+
+  if (!hasGrades || totalCr === 0) return null;
+
+  const gpa = Math.round((totalQP / totalCr) * 1000) / 1000;
+  let status;
+  if (gpa >= 4.0 && phrMinOk) status = 'principal';
+  else if (gpa >= 3.5 && hrMinOk) status = 'honor';
+  else status = 'none';
+
+  // What's preventing each level
+  const phrReasons = [];
+  if (gpa < 4.0) phrReasons.push(`GPA is ${gpa.toFixed(2)} (need 4.00)`);
+  if (!phrMinOk) {
+    const below = rows.filter(r=>GRADE_ORDER.indexOf(r.letter)>GRADE_ORDER.indexOf('B')||r.hasF);
+    below.forEach(r=>phrReasons.push(`${r.name}: ${r.grade} is below B`));
+  }
+  const hrReasons = [];
+  if (gpa < 3.5) hrReasons.push(`GPA is ${gpa.toFixed(2)} (need 3.50)`);
+  if (!hrMinOk) {
+    const below = rows.filter(r=>GRADE_ORDER.indexOf(r.letter)>GRADE_ORDER.indexOf('B-')||r.hasF);
+    below.forEach(r=>hrReasons.push(`${r.name}: ${r.grade} is below B−`));
+  }
+
+  return {gpa, status, rows, totalQP, totalCr, phrReasons, hrReasons};
 }
 
-// ════════════ PRINT ════════════
-function doPrint(){
-  const now=new Date();
-  const ds=now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  document.title=`Grade Calc – ${document.getElementById('student-name').value||'Student'} – ${ds}`;
-  window.print();
-}
+function showHonorRoll() {
+  const result = computeHonorRoll();
+  const body = document.getElementById('hr-body');
+  const semLabel = sem === 1 ? 'Semester 1' : 'Semester 2';
 
-// ════════════ KEYBOARD ════════════
-document.addEventListener('keydown',e=>{
-  const tag=e.target.tagName;
-  if(tag==='INPUT'||tag==='TEXTAREA'||e.target.isContentEditable){
-    if(e.key==='Escape'){e.target.blur();clearAll();}
+  if (!result) {
+    body.innerHTML = `<div style="text-align:center;padding:30px;color:var(--med)">
+      <div style="font-size:40px;margin-bottom:12px">📋</div>
+      <div style="font-size:15px;font-weight:700">No grades entered yet</div>
+      <div style="font-size:12px;margin-top:6px;color:var(--light)">Enter grades for at least one class, then check again.</div>
+    </div>`;
+    document.getElementById('hr-overlay').style.display = 'flex';
     return;
   }
-  // If a grade cell is focused, gcKey handles everything — don't intercept here
-  if(e.target.classList.contains('gcell')) return;
-  if(e.key==='Escape') clearAll();
-  if(e.key==='1') setSem(1);
-  if(e.key==='2') setSem(2);
+
+  const {gpa, status, rows, totalQP, totalCr, phrReasons, hrReasons} = result;
+  const gpaStr = gpa.toFixed(2);
+
+  const statusBadge = status==='principal'
+    ? `<span class="hr-status-badge principal">🥇 Principal's Honor Roll</span>`
+    : status==='honor'
+    ? `<span class="hr-status-badge honor">🎖️ Honor Roll</span>`
+    : `<span class="hr-status-badge none">✗ Not Eligible</span>`;
+
+  // Notes about what prevents each level
+  let notes = '';
+  if (status !== 'principal') {
+    notes += `<div class="hr-notes"><strong>Not eligible for Principal's Honor Roll</strong> (GPA ≥ 4.00, no grade below B):<br>`;
+    notes += phrReasons.map(r=>`&nbsp;• ${r}`).join('<br>');
+    notes += '</div>';
+  }
+  if (status === 'none') {
+    notes += `<div class="hr-notes" style="margin-top:6px"><strong>Not eligible for Honor Roll</strong> (GPA ≥ 3.50, no grade below B−):<br>`;
+    notes += hrReasons.map(r=>`&nbsp;• ${r}`).join('<br>');
+    notes += '</div>';
+  }
+
+  // Per-class table
+  const tableRows = rows.map(r => {
+    const chip = `<span class="hr-grade-chip" style="color:${gcol(r.grade)};background:${gbg(r.grade)}">${r.grade}</span>`;
+    const honTag = r.honors ? `<span style="font-size:9px;color:#7c3aed;font-weight:800;margin-left:3px">Hon</span>` : '';
+    const creditNote = r.isHalf ? '<span style="font-size:9px;color:#7c3aed"> (½)</span>' : '';
+    return `<tr class="${r.hasF||GRADE_ORDER.indexOf(r.letter)>GRADE_ORDER.indexOf('B-')?'flagged-row':''}">
+      <td><strong>${r.name}</strong>${honTag}</td>
+      <td>${chip}</td>
+      <td>${r.gp.toFixed(1)}${r.honors?'<span style="font-size:9px;color:#7c3aed"> /5</span>':'<span style="font-size:9px;color:#9ca3af"> /4</span>'}</td>
+      <td>${r.credits}${creditNote}</td>
+      <td><strong>${r.qp.toFixed(1)}</strong></td>
+    </tr>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="gpa-display">
+      <div style="font-size:11px;font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">${semLabel} GPA</div>
+      <div class="gpa-num">${gpaStr}</div>
+      <div>${statusBadge}</div>
+    </div>
+    ${notes}
+    <table class="hr-breakdown">
+      <thead><tr><th>Class</th><th>Grade</th><th>Points</th><th>Credits</th><th>Quality Pts</th></tr></thead>
+      <tbody>${tableRows}</tbody>
+      <tfoot><tr class="total-row">
+        <td colspan="3" style="text-align:right;color:var(--med)">Total:</td>
+        <td>${totalCr}</td>
+        <td>${totalQP.toFixed(1)}</td>
+      </tr></tfoot>
+    </table>
+    <div style="font-size:10px;color:var(--light);margin-top:12px;line-height:1.6">
+      GPA = Total Quality Points ÷ Total Credits &nbsp;·&nbsp; Regular: 4.0 scale &nbsp;·&nbsp; Honors/AP: 5.0 scale &nbsp;·&nbsp; Half Credit: 2 credits &nbsp;·&nbsp; Full Year: 4 credits
+    </div>`;
+
+  document.getElementById('hr-overlay').style.display = 'flex';
+}
+
+function closeHonorRoll(){document.getElementById('hr-overlay').style.display='none';}
+
+// ══════════ KEYBOARD ══════════
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){
+    if(document.getElementById('hr-overlay').style.display!=='none'){closeHonorRoll();return;}
+    const tag2=e.target.tagName;
+    if(tag2==='INPUT'||tag2==='TEXTAREA'||e.target.isContentEditable){e.target.blur();}
+    clearAll(); return;
+  }
+  const tag=e.target.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||e.target.isContentEditable)return;
+  if(e.target.classList.contains('gcell'))return;
+  if(e.key==='1')setSem(1);
+  if(e.key==='2')setSem(2);
 });
 
-// ════════════ INIT ════════════
+// ══════════ INIT ══════════
 render();
-// Focus first grade cell
-setTimeout(()=>{
-  const first=document.querySelector('.gcell:not(.disabled)');
-  if(first) first.focus();
-},80);
+setTimeout(()=>{const f=document.querySelector('.gcell:not(.disabled)');if(f)f.focus();},80);
 </script>
 </body>
 </html>
